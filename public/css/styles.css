@@ -1,0 +1,52 @@
+/* public/css/style.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: #f2f2f2;
+  }
+  
+  h1, h2 {
+    text-align: center;
+  }
+  
+  form, .content {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+  }
+  
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  #eventList div, #userList div {
+    background: #ffffff;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+  }
+  

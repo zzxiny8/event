@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>用户页面</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <h1>用户页面</h1>
+
+  <!-- 展示活动列表 -->
+  <h2>活动列表</h2>
+  <div id="eventList">这里会显示活动列表</div>
+
+  <!-- 用户信息提交表单 -->
+  <h2>提交个人信息</h2>
+  <form id="userForm">
+    <label for="name">姓名:</label>
+    <input type="text" id="name" name="name" required />
+    
+    <label for="isVegetarian">是否素食主义者:</label>
+    <input type="checkbox" id="isVegetarian" name="isVegetarian" />
+    
+    <label for="hasDinner">是否吃晚饭:</label>
+    <input type="checkbox" id="hasDinner" name="hasDinner" />
+    
+    <label for="allergies">是否有过敏:</label>
+    <input type="text" id="allergies" name="allergies" placeholder="过敏信息" />
+
+    <button type="submit">提交</button>
+  </form>
+
+  <script src="./js/user.js"></script>
+</body>
+</html>
