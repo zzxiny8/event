@@ -2,15 +2,22 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const { ServerApiVersion } = require('mongodb');  // 引入 ServerApiVersion
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 1. 连接 MongoDB
-mongoose.connect('mongodb://localhost:27017/event_pwa_db', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+// 1. 连接 MongoDB（使用 MongoDB 建议的连接选项）
+mongoose.connect(
+  'mongodb+srv://zhaoxinyue:1062899138Zxy%40@cluster0.0ri2z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+  {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+  }
+)
   .then(() => console.log('MongoDB connected!'))
   .catch(err => console.error('MongoDB connection error:', err));
 
