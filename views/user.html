@@ -8,60 +8,12 @@
 </head>
 <body>
   <h1>DX IS FOR BETTER LIFE!</h1>
-
   <div class="container">
     <h2>Events List</h2>
     <!-- 用来放置活动卡片的容器 -->
     <div id="events-container"></div>
   </div>
- 
-  <script>
- 
-    const colors = [
-      '#84bfcf',
-      '#84cfa6',
-      '#e49fdc',
-      '#deb385',
-      '#e49fb5'
-    ];
-    // 从后端获取活动列表
-    fetch('/api/events')
-      .then(response => response.json())
-      .then(events => {
-        const container = document.getElementById('events-container');
-
-        // 遍历每个活动，并为其创建一个卡片
-        events.forEach(event => {
-          // 创建卡片的外层 div
-          const card = document.createElement('div');
-          card.classList.add('event-card');
-
-          // 设定卡片点击后跳转到详情页面
-          card.addEventListener('click', () => {
-            window.location.href = 'event_detail.html?id=' + event._id;
-          });
-
-          // 随机选择一张背景图
-          const randomIndex = Math.floor(Math.random() * imageUrls.length);
-          card.style.backgroundImage = `url('${imageUrls[randomIndex]}')`;
-
-          // 卡片内部的标题
-          const title = document.createElement('h3');
-          title.textContent = event.title;
-
-          // 时间（或其他信息）
-          const date = document.createElement('p');
-          date.textContent = event.date;
-
-          // 把文字元素加到卡片中
-          card.appendChild(title);
-          card.appendChild(date);
-
-          // 把卡片加到容器里
-          container.appendChild(card);
-        });
-      })
-      .catch(err => console.error(err));
-  </script>
+  <!-- 引入修改后的 user.js -->
+  <script src="./js/user.js"></script>
 </body>
 </html>
