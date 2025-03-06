@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>${evt.title}</h3>
             <p>Date: ${evt.date}</p>
             <p>Location: ${evt.location}</p>
-            <p>Description: ${evt.description}</p>
           `;
 
           // 点击卡片后跳转到活动详情页，传入活动的 id 参数

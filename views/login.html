@@ -3,16 +3,16 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>登录</title>
+  <title>DX IS FOR BETTER LIFE!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../public/css/style.css" />
 </head>
 <body>
-  <h1>登录</h1>
+  <h1>Login</h1>
   <form action="/login" method="POST">
-    <label for="email">邮箱:</label>
+    <label for="email">email:</label>
     <input type="email" name="email" id="email" required />
-    <button type="submit">登录</button>
+    <button type="submit">Login</button>
   </form>
   
 
@@ -20,8 +20,8 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-          .then(() => console.log('Service Worker 注册成功'))
-          .catch(err => console.error('Service Worker 注册失败', err));
+          .then(() => console.log('Service Worker Successful'))
+          .catch(err => console.error('Service Worker Fail', err));
       });
     }
   </script>
