@@ -63,7 +63,7 @@ button:hover {
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
-  color: white;
+  color: rgb(255, 255, 255);
   padding: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   cursor: pointer;

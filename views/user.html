@@ -16,15 +16,14 @@
   </div>
  
   <script>
-    // 定义包含五张背景图路径的数组
-    const imageUrls = [
-      '/images/bg1.jpg',
-      '/images/bg2.jpg',
-      '/images/bg3.jpg',
-      '/images/bg4.jpg',
-      '/images/bg5.jpg'
+ 
+    const colors = [
+      '#84bfcf',
+      '#84cfa6',
+      '#e49fdc',
+      '#deb385',
+      '#e49fb5'
     ];
-
     // 从后端获取活动列表
     fetch('/api/events')
       .then(response => response.json())
