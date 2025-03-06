@@ -16,11 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           events.forEach(evt => {
             const div = document.createElement('div');
+            const eventDate = new Date(evt.date);
             div.innerHTML = `
               <h3>${evt.title}</h3>
-              <p>日期: ${evt.date}</p>
-              <p>地点: ${evt.location}</p>
-              <p>描述: ${evt.description}</p>
+              <p>Date: ${eventDate.toLocaleString()}</p>
+              <p>Location: ${evt.location}</p>
+              <p>Description: ${evt.description}</p>
             `;
             eventList.appendChild(div);
           });

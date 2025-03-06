@@ -12,24 +12,27 @@
   <!-- 上传活动信息表单 -->
   <h2>上传活动信息</h2>
   <form id="eventForm">
-    <label for="title">活动名称:</label>
+    <label for="title">Event Name:</label>
     <input type="text" id="title" name="title" required />
     
-    <label for="date">活动日期:</label>
+    <label for="date">Date:</label>
     <input type="date" id="date" name="date" required />
+
+    <label for="time">Time:</label>
+    <input type="time" id="time" name="time" required />
     
-    <label for="location">地点:</label>
+    <label for="location">Location:</label>
     <input type="text" id="location" name="location" required />
     
-    <label for="description">描述:</label>
+    <label for="description">Description:</label>
     <textarea id="description" name="description"></textarea>
     
-    <button type="submit">提交</button>
+    <button type="submit">Submit</button>
   </form>
 
   <!-- 查看用户提交信息 -->
-  <h2>查看用户提交信息</h2>
-  <button id="loadUsersBtn">加载用户信息</button>
+  <h2>User Information</h2>
+  <button id="loadUsersBtn">Load user information</button>
   <div id="userList"></div>
 
   <script src="./js/admin.js"></script> 

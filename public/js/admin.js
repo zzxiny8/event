@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = {
         title: formData.get('title'),
         date: formData.get('date'),
+        time: formData.get('time'),
         location: formData.get('location'),
         description: formData.get('description'),
       };
@@ -21,14 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify(data),
         });
         if (res.ok) {
-          alert('活动信息已提交！');
+          alert('Event information has been submitted!');
           eventForm.reset();
         } else {
-          alert('提交失败！');
+          alert('Failed to submit!');
         }
       } catch (err) {
         console.error(err);
-        alert('提交出错！');
+        alert('Failed to submit!');
       }
     });
   
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const users = await res.json();
           userList.innerHTML = '';
           if (users.length === 0) {
-            userList.textContent = '暂时没有用户提交信息';
+            userList.textContent = 'There is no user information!';
             return;
           }
           users.forEach(u => {
@@ -49,11 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
             userList.appendChild(div);
           });
         } else {
-          alert('加载失败！');
+          alert('Loading failed!');
         }
       } catch (err) {
         console.error(err);
-        alert('请求出错！');
+        alert('There is an error in the request!');
       }
     });
   });
