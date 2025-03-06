@@ -1,7 +1,6 @@
 // public/js/user.js
 document.addEventListener('DOMContentLoaded', () => {
-    const eventList = document.getElementById('eventList');
-    const userForm = document.getElementById('userForm');
+    const eventsContainer = document.getElementById('events-container');
   
    // 如果需要背景图，请定义图片数组
    const colors = [
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const events = await res.json();
         eventsContainer.innerHTML = '';
         if (events.length === 0) {
-          eventsContainer.textContent = '目前没有活动。';
+          eventsContainer.textContent = 'There is no event!';
           return;
         }
         events.forEach(evt => {
@@ -51,11 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
           eventsContainer.appendChild(card);
         });
       } else {
-        eventsContainer.textContent = '无法加载活动列表。';
+        eventsContainer.textContent = 'Unable to load the event list!';
       }
     } catch (err) {
       console.error(err);
-      eventsContainer.textContent = '请求出错。';
+      eventsContainer.textContent = 'There is an error in the request!';
     }
   }
 

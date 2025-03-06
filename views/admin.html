@@ -2,15 +2,15 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>管理员页面</title>
+  <title>DX IS FOR BETTER LIFE!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-  <h1>管理员页面</h1>
+  <h1>DX IS FOR BETTER LIFE!</h1>
   
   <!-- 上传活动信息表单 -->
-  <h2>上传活动信息</h2>
+  <h2>Upload Events</h2>
   <form id="eventForm">
     <label for="title">Event Name:</label>
     <input type="text" id="title" name="title" required />
@@ -28,12 +28,19 @@
     <textarea id="description" name="description"></textarea>
     
     <button type="submit">Submit</button>
+    <!-- 取消编辑按钮：仅在编辑状态下显示 -->
+    <button type="button" id="cancelEditBtn" style="display: none;">Cancel Edit</button>
   </form>
 
   <!-- 查看用户提交信息 -->
   <h2>User Information</h2>
   <button id="loadUsersBtn">Load user information</button>
   <div id="userList"></div>
+
+   <!-- 查看活动列表 -->
+   <h2>Manage Events</h2>
+   <button id="loadEventsBtn">Load Events</button>
+   <div id="events-container"></div>
 
   <script src="./js/admin.js"></script> 
 </body>

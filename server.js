@@ -52,7 +52,7 @@ app.post('/login', (req, res) => {
   }
 
   // 判断是否为管理员
-  if (email === 'xinyue.zhao@udtrucks.com') {
+  if (email === 'xinyue.zhao@udtrucks.com'||email === 'florence.yiu@udtrucks.com') {
     // 管理员跳转到 admin.html
     return res.redirect('/admin.html');
   } else {
