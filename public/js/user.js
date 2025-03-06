@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // 随机选择一张背景图（如果有背景图数组）
           if (colors.length > 0) {
             const randomIndex = Math.floor(Math.random() * colors.length);
-            card.style.backgroundImage = `url('${colors[randomIndex]}')`;
+            card.style.backgroundColor = colors[randomIndex];
           }
 
           // 设置卡片内部的内容（注意使用反引号构造模板字符串）

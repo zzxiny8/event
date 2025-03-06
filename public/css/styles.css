@@ -63,7 +63,7 @@ button:hover {
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
-  color: rgb(255, 255, 255);
+  color: rgb(6, 1, 64);
   padding: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   cursor: pointer;
@@ -78,12 +78,3 @@ button:hover {
   margin: 0;
 }
 
-/* 增加一个半透明遮罩层，让卡片内文字更清晰 */
-.event-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  z-index: 0;
-}

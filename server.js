@@ -7,7 +7,7 @@ const { ServerApiVersion } = require('mongodb');  // 引入 ServerApiVersion
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 1. 连接 MongoDB（使用 MongoDB 建议的连接选项）1
+// 1. 连接 MongoDB（使用 MongoDB 建议的连接选项）
 mongoose.connect(
   'mongodb+srv://zhaoxinyue:1062899138Zxy%40@cluster0.0ri2z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
   {
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
 
-// ========== 新增：让根路径 / 跳转到 /login.html ==========
+// ========== 让根路径 / 跳转到 /login.html ==========
 app.get('/', (req, res) => {
   res.redirect('/login.html');
 });
@@ -52,7 +52,7 @@ app.post('/login', (req, res) => {
   }
 
   // 判断是否为管理员
-  if (email === 'xinyue.zhao@udtrucks.com'||email === 'florence.yiu@udtrucks.com') {
+  if (email === 'xinyue.zhao@udtrucks.com' || email === 'florence.yiu@udtrucks.com') {
     // 管理员跳转到 admin.html
     return res.redirect('/admin.html');
   } else {
@@ -65,7 +65,7 @@ app.post('/login', (req, res) => {
 app.post('/api/admin/event', async (req, res) => {
   try {
     const { title, date, time, location, description } = req.body;
-    const dateTime = new Date(`${date}T${time}`);
+    const dateTime = new Date(`${date}T${time}`); // 将日期+时间组合成一个完整时间
     const newEvent = new Event({ title, date: dateTime, location, description });
     await newEvent.save();
     res.status(200).send('Save successfully!');
@@ -75,7 +75,53 @@ app.post('/api/admin/event', async (req, res) => {
   }
 });
 
-// (D) 获取所有活动 (GET /api/events)
+// (C1) 管理员查看所有活动 (GET /api/admin/events)
+app.get('/api/admin/events', async (req, res) => {
+  try {
+    const events = await Event.find({});
+    res.json(events); // 返回数组形式的活动列表
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to obtain event information!');
+  }
+});
+
+// (C2) 管理员更新活动 (PUT /api/admin/event/:id)
+app.put('/api/admin/event/:id', async (req, res) => {
+  try {
+    const { title, date, time, location, description } = req.body;
+    const dateTime = new Date(`${date}T${time}`);
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      req.params.id,
+      { title, date: dateTime, location, description },
+      { new: true } // 返回更新后的文档
+    );
+    if (!updatedEvent) {
+      return res.status(404).send('Event not found!');
+    }
+    res.status(200).send('Event updated successfully!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to update event!');
+  }
+});
+
+// (C3) 管理员删除活动 (DELETE /api/admin/event/:id)
+app.delete('/api/admin/event/:id', async (req, res) => {
+  try {
+    const deletedEvent = await Event.findByIdAndDelete(req.params.id);
+    if (!deletedEvent) {
+      return res.status(404).send('Event not found!');
+    }
+    res.status(200).send('Event deleted successfully!');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to delete event!');
+  }
+});
+
+// (D) 获取所有活动 (GET /api/events) - 给普通用户查看
 app.get('/api/events', async (req, res) => {
   try {
     const events = await Event.find();
