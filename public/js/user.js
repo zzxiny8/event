@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // 点击卡片后跳转到活动详情页，传入活动的 id 参数
           card.addEventListener('click', () => {
-            window.location.href = 'event_detail.html?id=' + evt._id;
+            window.location.href = '/views/event-detail.html?id=' + evt._id;
           });
 
           // 添加卡片到容器

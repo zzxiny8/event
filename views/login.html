@@ -5,16 +5,21 @@
   <meta charset="UTF-8" />
   <title>DX IS FOR BETTER LIFE!</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../public/css/style.css" />
+  <!-- 使用绝对路径加载 CSS，前提是 server.js 里将 public 设置为静态目录 -->
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <h1>Login</h1>
-  <form action="/login" method="POST">
-    <label for="email">email:</label>
-    <input type="email" name="email" id="email" required />
-    <button type="submit">Login</button>
-  </form>
-  
+  <!-- 使用在 style.css 中定义好的类名，让页面居中并带半透明背景 -->
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <form action="/login" method="POST">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -25,6 +30,5 @@
       });
     }
   </script>
-  
 </body>
 </html>

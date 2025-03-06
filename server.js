@@ -2,7 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const { ServerApiVersion } = require('mongodb');  // 引入 ServerApiVersion
+const { ServerApiVersion } = require('mongodb');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,8 +28,10 @@ const { Event, User } = require('./models');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 4. 设置静态文件夹
+// 4. 设置静态文件夹，public 目录中存放 css、images 等静态资源
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 如果需要直接访问 views 目录下的 HTML 文件，也可以添加：
 app.use(express.static(path.join(__dirname, 'views')));
 
 // ========== 让根路径 / 跳转到 /login.html ==========
@@ -65,7 +67,7 @@ app.post('/login', (req, res) => {
 app.post('/api/admin/event', async (req, res) => {
   try {
     const { title, date, time, location, description } = req.body;
-    const dateTime = new Date(`${date}T${time}`); // 将日期+时间组合成一个完整时间
+    const dateTime = new Date(`${date}T${time}`);
     const newEvent = new Event({ title, date: dateTime, location, description });
     await newEvent.save();
     res.status(200).send('Save successfully!');
@@ -79,7 +81,7 @@ app.post('/api/admin/event', async (req, res) => {
 app.get('/api/admin/events', async (req, res) => {
   try {
     const events = await Event.find({});
-    res.json(events); // 返回数组形式的活动列表
+    res.json(events);
   } catch (error) {
     console.error(error);
     res.status(500).send('Failed to obtain event information!');
@@ -91,11 +93,10 @@ app.put('/api/admin/event/:id', async (req, res) => {
   try {
     const { title, date, time, location, description } = req.body;
     const dateTime = new Date(`${date}T${time}`);
-
     const updatedEvent = await Event.findByIdAndUpdate(
       req.params.id,
       { title, date: dateTime, location, description },
-      { new: true } // 返回更新后的文档
+      { new: true }
     );
     if (!updatedEvent) {
       return res.status(404).send('Event not found!');
@@ -121,7 +122,7 @@ app.delete('/api/admin/event/:id', async (req, res) => {
   }
 });
 
-// (D) 获取所有活动 (GET /api/events) - 给普通用户查看
+// (D) 获取所有活动 (GET /api/events)
 app.get('/api/events', async (req, res) => {
   try {
     const events = await Event.find();
@@ -153,6 +154,20 @@ app.get('/api/admin/users', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send('Failed to obtain user information!');
+  }
+});
+
+// (G) 获取单个活动详情 (GET /api/events/:id)
+app.get('/api/events/:id', async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).send('Event not found!');
+    }
+    res.json(event);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Failed to load event detail!');
   }
 });
 

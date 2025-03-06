@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const card = document.getElementById('card');
   
     // 为 card 元素设置随机背景图片
-    card.style.backgroundImage = `url('${colors[randomIndex]}')`;
+    card.style.backgroundColor = colors[randomIndex];
   
     // 可选：为卡片添加点击事件，点击后跳转到活动详情页面（这里示例传递一个活动ID参数）
     card.addEventListener('click', function() {
