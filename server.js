@@ -48,7 +48,7 @@ app.post('/login', (req, res) => {
 
   // 只允许 @udtrucks.com 邮箱登录
   if (!email.endsWith('@udtrucks.com')) {
-    return res.status(400).send('无效的邮箱后缀，必须是 @udtrucks.com');
+    return res.status(400).send('Invalid email!');
   }
 
   // 判断是否为管理员
@@ -64,13 +64,14 @@ app.post('/login', (req, res) => {
 // (C) 管理员上传活动 (POST /api/admin/event)
 app.post('/api/admin/event', async (req, res) => {
   try {
-    const { title, date, location, description } = req.body;
-    const newEvent = new Event({ title, date, location, description });
+    const { title, date, time, location, description } = req.body;
+    const dateTime = new Date(`${date}T${time}`);
+    const newEvent = new Event({ title, date: dateTime, location, description });
     await newEvent.save();
-    res.status(200).send('活动信息已保存');
+    res.status(200).send('Save successfully!');
   } catch (error) {
     console.error(error);
-    res.status(500).send('保存失败');
+    res.status(500).send('Failed to save!');
   }
 });
 
@@ -81,7 +82,7 @@ app.get('/api/events', async (req, res) => {
     res.json(events);
   } catch (error) {
     console.error(error);
-    res.status(500).send('获取活动信息失败');
+    res.status(500).send('Failed to obtain event information!');
   }
 });
 
@@ -91,10 +92,10 @@ app.post('/api/user/submit', async (req, res) => {
     const { email, name, isVegetarian, hasDinner, allergies } = req.body;
     const newUserInfo = new User({ email, name, isVegetarian, hasDinner, allergies });
     await newUserInfo.save();
-    res.status(200).send('用户信息已提交');
+    res.status(200).send('User information has been submitted!');
   } catch (error) {
     console.error(error);
-    res.status(500).send('提交失败');
+    res.status(500).send('Failed to submit!');
   }
 });
 
@@ -105,7 +106,7 @@ app.get('/api/admin/users', async (req, res) => {
     res.json(users);
   } catch (error) {
     console.error(error);
-    res.status(500).send('获取用户信息失败');
+    res.status(500).send('Failed to obtain user information!');
   }
 });
 
