@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const userForm = document.getElementById('userForm');
   
    // 如果需要背景图，请定义图片数组
-   const imageUrls = [
-    './images/bg1.jpg',
-    './images/bg2.jpg',
-    './images/bg3.jpg'
+   const colors = [
+    '#a8d989',
+    '#89bdd9',
+    '#a189d9',
+    '#e09ed7',
+    '#efc193'
   ];
 
   // 加载活动列表
@@ -27,9 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
           card.classList.add('event-card');
 
           // 随机选择一张背景图（如果有背景图数组）
-          if (imageUrls.length > 0) {
-            const randomIndex = Math.floor(Math.random() * imageUrls.length);
-            card.style.backgroundImage = `url('${imageUrls[randomIndex]}')`;
+          if (colors.length > 0) {
+            const randomIndex = Math.floor(Math.random() * colors.length);
+            card.style.backgroundImage = `url('${colors[randomIndex]}')`;
           }
 
           // 设置卡片内部的内容（注意使用反引号构造模板字符串）
