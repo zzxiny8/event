@@ -30,15 +30,16 @@ app.use(express.urlencoded({ extended: true }));
 
 // 4. 设置静态文件夹，public 目录中存放 css、images 等静态资源
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
 
 // ========== 让根路径 / 跳转到 /login.html ==========
 app.get('/', (req, res) => {
-  res.redirect('/views/login.html');
+  res.redirect('/login.html');
 });
 
 // (A) GET /login => 返回 login.html
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'views', 'login.html'));
+  res.sendFile(path.join(__dirname, 'views', 'login.html'));
 });
 
 // (B) 登录处理 (POST /login)
