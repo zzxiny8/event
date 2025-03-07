@@ -34,37 +34,62 @@ h2 {
 
 /* Input and button styling */
 input {
-  width: 280px;
+  width: 95%;
   padding: 12px;
-  margin: 10px 0;
-  border: 2px solid white;
+  margin: 5px 0;
+  border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
 }
 
+/* Labels: Make them align left */
+form label {
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+/* Form container */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Buttons */
 button {
-  width: 300px;
+  width: 100%;
   padding: 12px;
   border: none;
-  background: #007bff;
-  color: white;
   font-size: 18px;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
-button:hover {
+/* Submit Button */
+button[type="submit"] {
+  background: #007bff;
+  color: white;
+}
+
+button[type="submit"]:hover {
   background: #0056b3;
 }
 
-/* Error message */
-#error {
-  color: red;
-  font-size: 16px;
-  margin-top: 10px;
+/* Back Button */
+.back-btn {
+  background: #ff4d4d;
+  color: white;
+}
+
+.back-btn:hover {
+  background: #cc0000;
 }
 
 /* ---- Event Page Styling ---- */
@@ -115,20 +140,4 @@ button:hover {
   text-align: center;
   width: 90%;
   max-width: 600px;
-}
-
-/* Back button */
-.back-btn {
-  margin-top: 20px;
-  background: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.back-btn:hover {
-  background: #cc0000;
 }
