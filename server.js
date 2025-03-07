@@ -31,17 +31,14 @@ app.use(express.urlencoded({ extended: true }));
 // 4. 设置静态文件夹，public 目录中存放 css、images 等静态资源
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 如果需要直接访问 views 目录下的 HTML 文件，也可以添加：
-app.use(express.static(path.join(__dirname, 'views')));
-
 // ========== 让根路径 / 跳转到 /login.html ==========
 app.get('/', (req, res) => {
-  res.redirect('/login.html');
+  res.redirect('/views/login.html');
 });
 
 // (A) GET /login => 返回 login.html
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'login.html'));
+  res.sendFile(path.join(__dirname, 'public', 'views', 'login.html'));
 });
 
 // (B) 登录处理 (POST /login)
@@ -56,10 +53,10 @@ app.post('/login', (req, res) => {
   // 判断是否为管理员
   if (email === 'xinyue.zhao@udtrucks.com' || email === 'florence.yiu@udtrucks.com') {
     // 管理员跳转到 admin.html
-    return res.redirect('/admin.html');
+    return res.redirect('/views/admin.html');
   } else {
     // 普通用户跳转到 user.html
-    return res.redirect('/user.html');
+    return res.redirect('/views/user.html');
   }
 });
 
