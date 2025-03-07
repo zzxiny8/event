@@ -31,7 +31,6 @@ app.post('/api/login', (req, res) => {
   if (email.toLowerCase() === ADMIN_EMAIL) {
     role = 'admin';
   }
-  // In a real app, you'd handle password verification and sessions/JWT here.
   return res.json({ message: 'Login successful', email: email, role: role });
 });
 
@@ -50,7 +49,6 @@ app.get('/api/events', async (req, res) => {
 app.post('/api/events', async (req, res) => {
   try {
     const { title, description, date, adminEmail } = req.body;
-    // Basic admin authentication check
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
       return res.status(403).json({ error: 'Forbidden' });
     }
@@ -67,22 +65,39 @@ app.post('/api/events', async (req, res) => {
   }
 });
 
-// Submit user info for an event (user registration)
+// Submit user info for an event (user registration) [UPDATED]
 app.post('/api/submit', async (req, res) => {
   try {
     const { name, email, phone, eventId } = req.body;
+
+    console.log("Received submission:", req.body); // Log received data
+
     if (!name || !email || !eventId) {
+      console.warn("Submission failed: Missing required fields.");
       return res.status(400).json({ error: 'Missing required fields' });
     }
+
     if (!email.endsWith('@udtrucks.com')) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      console.warn("Unauthorized email attempted submission:", email);
+      return res.status(401).json({ error: 'Unauthorized email' });
     }
+
     const event = await Event.findById(eventId);
     if (!event) {
+      console.warn("Invalid event ID provided:", eventId);
       return res.status(400).json({ error: 'Invalid event ID' });
     }
-    const newUser = new User({ name: name, email: email, phone: phone, event: event._id });
+
+    const newUser = new User({
+      name: name,
+      email: email,
+      phone: phone,
+      event: event._id
+    });
+
     await newUser.save();
+    console.log("Submission saved successfully!");
+
     return res.status(201).json({ message: 'Submission successful' });
   } catch (err) {
     console.error('Error submitting user info:', err);
@@ -114,7 +129,7 @@ app.delete('/api/events/:id', async (req, res) => {
     }
     const eventId = req.params.id;
     await Event.findByIdAndDelete(eventId);
-    await User.deleteMany({ event: eventId });  // remove associated user submissions for this event
+    await User.deleteMany({ event: eventId });
     res.json({ message: 'Event deleted' });
   } catch (err) {
     console.error('Error deleting event:', err);
