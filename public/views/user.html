@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#007bff" />
-  <title>User - Event Registration</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-  <link rel="manifest" href="../manifest.json" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-  <div class="container">
-    <div class="user-content">
-      <h2 id="eventTitle">Event Title</h2>
-      <p id="eventDescription">Event description will appear here.</p>
-      <p id="eventDate"></p>
-      <h3>Your Information</h3>
-      <form id="userForm">
-        <input type="text" id="name" placeholder="Your Name" required /><br />
-        <input type="email" id="email" placeholder="Your Email" disabled /><br />
-        <input type="text" id="phone" placeholder="Phone Number (optional)" /><br />
-        <button type="submit">Submit</button>
-      </form>
+    <div class="container">
+        <h1 class="main-title">DX is for better life!</h1>
+        
+        <!-- Event List Section -->
+        <div id="eventListContainer">
+            <h2 class="sub-title">Available Events</h2>
+            <div id="eventList" class="event-container"></div>
+        </div>
+
+        <!-- Event Details Section (Initially Hidden) -->
+        <div id="eventDetailsContainer" style="display: none;">
+            <h2 id="eventTitle"></h2>
+            <p id="eventDescription"></p>
+            <p id="eventDate"></p>
+
+            <h3>Your Information</h3>
+            <form id="userForm">
+                <label>Your Name</label>
+                <input type="text" id="name" placeholder="Your Name" required>
+                
+                <label>Email</label>
+                <input type="email" id="email" disabled>
+
+                <label>Phone Number (optional)</label>
+                <input type="text" id="phone" placeholder="Phone Number (optional)">
+
+                <button type="submit">Submit</button>
+            </form>
+
+            <button id="backButton" class="back-btn">Back to Events</button>
+        </div>
     </div>
-  </div>
-  <script src="../js/user.js"></script>
+
+    <script src="../js/user.js"></script>
 </body>
 </html>

@@ -1,76 +1,67 @@
-document.addEventListener('DOMContentLoaded', async function() {
-  // Check that user is logged in and is a normal user (not admin)
-  const userEmail = localStorage.getItem('userEmail');
-  const userRole = localStorage.getItem('userRole');
-  if (!userEmail || userRole !== 'user') {
-    // Not logged in or wrong role, redirect to login
-    window.location.href = 'login.html';
-    return;
+document.addEventListener("DOMContentLoaded", async function () {
+  // Ensure user is logged in
+  const userEmail = localStorage.getItem("userEmail");
+  if (!userEmail || !userEmail.endsWith("@udtrucks.com")) {
+      window.location.href = "/views/login.html"; // Redirect to login if not authenticated
+      return;
   }
-  // Set the email field to the logged-in user's email
-  document.getElementById('email').value = userEmail;
 
-  // Fetch events to display event info
+  document.getElementById("email").value = userEmail; // Autofill user email
+
+  const eventListContainer = document.getElementById("eventListContainer");
+  const eventDetailsContainer = document.getElementById("eventDetailsContainer");
+  const eventList = document.getElementById("eventList");
+  const backButton = document.getElementById("backButton");
+
+  // Fetch events and display them as clickable cards
   try {
-    const res = await fetch('/api/events');
-    const events = await res.json();
-    if (res.ok && events.length > 0) {
-      // Display the latest event (first in the sorted list)
-      const event = events[0];
-      document.getElementById('eventTitle').textContent = event.title;
-      document.getElementById('eventDescription').textContent = event.description || '';
-      if (event.date) {
-        const dateObj = new Date(event.date);
-        document.getElementById('eventDate').textContent = 'Date: ' + dateObj.toLocaleDateString();
+      const res = await fetch("/api/events");
+      const events = await res.json();
+
+      if (res.ok && events.length > 0) {
+          eventList.innerHTML = ""; // Clear existing content
+
+          events.forEach(event => {
+              const eventCard = document.createElement("div");
+              eventCard.classList.add("event-card");
+              eventCard.style.backgroundColor = getRandomColor(); // Assign a random color
+
+              eventCard.innerHTML = `
+                  <h2 class="event-title">${event.title}</h2>
+                  <p class="event-date">${event.date ? `📅 ${new Date(event.date).toLocaleDateString()}` : "📅 No date available"}</p>
+              `;
+
+              eventCard.addEventListener("click", () => showEventDetails(event));
+
+              eventList.appendChild(eventCard);
+          });
+      } else {
+          eventList.innerHTML = "<p class='no-events'>No events available.</p>";
       }
-      // Store event ID in the form (using dataset) for use on submit
-      document.getElementById('userForm').dataset.eventId = event._id;
-    } else {
-      document.getElementById('eventTitle').textContent = 'No events available.';
-      document.getElementById('eventDescription').textContent = '';
-      document.getElementById('eventDate').textContent = '';
-    }
   } catch (err) {
-    console.error('Error fetching events:', err);
-    document.getElementById('eventTitle').textContent = 'Error loading event data.';
+      console.error("Error fetching events:", err);
+      eventList.innerHTML = "<p class='error'>Error loading events. Please try again later.</p>";
   }
-});
 
-// Handle user info form submission
-document.getElementById('userForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const eventId = e.target.dataset.eventId;
-  if (!name || !email || !eventId) {
-    alert('Please complete all required fields.');
-    return;
-  }
-  try {
-    const res = await fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, email: email, phone: phone, eventId: eventId })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      alert('Submitted successfully!');
-      // Clear the form after successful submission
-      document.getElementById('userForm').reset();
-      // (Optionally, you could show a confirmation message on the page instead of alert)
-    } else {
-      alert(data.error || 'Submission failed');
-    }
-  } catch (err) {
-    console.error('Error submitting form:', err);
-    alert('Unable to submit. Please try again later.');
-  }
-});
+  // Function to show event details
+  function showEventDetails(event) {
+      document.getElementById("eventTitle").textContent = event.title;
+      document.getElementById("eventDescription").textContent = event.description || "No description available";
+      document.getElementById("eventDate").textContent = event.date ? `📅 Date: ${new Date(event.date).toLocaleDateString()}` : "📅 Date: Not provided";
 
-// Register the service worker for PWA
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(err => {
-    console.log('Service Worker registration failed:', err);
+      eventListContainer.style.display = "none";
+      eventDetailsContainer.style.display = "block";
+  }
+
+  // Function to go back to event list
+  backButton.addEventListener("click", function () {
+      eventDetailsContainer.style.display = "none";
+      eventListContainer.style.display = "block";
   });
+});
+
+// Function to generate random colors for event cards
+function getRandomColor() {
+  const colors = ["#FF6B6B", "#6B5BFF", "#28A745", "#FFC107", "#17A2B8"];
+  return colors[Math.floor(Math.random() * colors.length)];
 }

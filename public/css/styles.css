@@ -67,23 +67,29 @@ button:hover {
   margin-top: 10px;
 }
 
+/* ---- Event Page Styling ---- */
+
 /* Event container */
 .event-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  margin-top: 20px;
+  width: 90%;
+  max-width: 600px;
 }
 
-/* Event cards */
+/* Clickable event cards */
 .event-card {
-  padding: 15px;
+  padding: 20px;
   border-radius: 10px;
   color: white;
   text-align: center;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Alternating colors */
@@ -96,4 +102,33 @@ button:hover {
 
 .event-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Event details container */
+#eventDetailsContainer {
+  display: none;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+/* Back button */
+.back-btn {
+  margin-top: 20px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: #cc0000;
 }
