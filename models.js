@@ -1,26 +1,24 @@
-// models.js
 const mongoose = require('mongoose');
 
-// 活动信息的 Schema
-const eventSchema = new mongoose.Schema({
-  title: String,
-  date: String,
-  time: String,
-  location: String,
-  description: String,
-});
-
-// 用户提交信息的 Schema
+// Define the schema for user submissions
 const userSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  isVegetarian: Boolean,
-  hasDinner: Boolean,
-  allergies: String,
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  phone: { type: String },
+  event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+  createdAt: { type: Date, default: Date.now }
 });
 
-// 创建模型
-const Event = mongoose.model('Event', eventSchema);
-const User = mongoose.model('User', userSchema);
+// Define the schema for events
+const eventSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  date: { type: Date },
+  createdAt: { type: Date, default: Date.now }
+});
 
-module.exports = { Event, User };
+// Create Mongoose models
+const User = mongoose.model('User', userSchema);
+const Event = mongoose.model('Event', eventSchema);
+
+module.exports = { User, Event };

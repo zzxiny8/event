@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#007bff" />
+  <title>User - Event Registration</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="manifest" href="../manifest.json" />
+</head>
+<body>
+  <div class="container">
+    <div class="user-content">
+      <h2 id="eventTitle">Event Title</h2>
+      <p id="eventDescription">Event description will appear here.</p>
+      <p id="eventDate"></p>
+      <h3>Your Information</h3>
+      <form id="userForm">
+        <input type="text" id="name" placeholder="Your Name" required /><br />
+        <input type="email" id="email" placeholder="Your Email" disabled /><br />
+        <input type="text" id="phone" placeholder="Phone Number (optional)" /><br />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+  <script src="../js/user.js"></script>
+</body>
+</html>

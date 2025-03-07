@@ -1,156 +1,74 @@
-/* public/css/style.css */
-
-/* ------------------------------
-   全局样式及背景设置
------------------------------- */
+/* Global styles and layout */
 body {
   margin: 0;
-  padding: 0;
-  font-family: 'Open Sans', sans-serif;
-  /* 使用绝对路径引用背景图片，前提：server.js 中 public 文件夹设置为静态资源 */
-  background: url("/images/main.jpg") no-repeat center center fixed;
-  background-size: cover;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
 }
-
-h1, h2 {
-  text-align: center;
-  color: #333; /* 让标题更显眼 */
-}
-
-/* ------------------------------
-   公共容器和内容样式
------------------------------- */
-.container, form, .content {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* 表单相关 */
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-button:hover {
-  background: #0056b3;
-}
-
-/* ------------------------------
-   活动列表中通用样式
------------------------------- */
-#eventList div, #userList div {
-  background: #ffffff;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* ------------------------------
-   活动卡片样式
------------------------------- */
-.event-card {
-  width: 300px;
-  height: 150px;
-  border-radius: 10px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-  color: rgb(6, 1, 64);
-  padding: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  cursor: pointer;
-  margin: 10px auto;
-  transition: transform 0.2s ease-in-out;
-}
-
-.event-card:hover {
-  transform: scale(1.03);
-}
-
-.event-card h3,
-.event-card p {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-}
-
-/* ------------------------------
-   登录页面专用样式
------------------------------- */
-.login-container {
+.container {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;  /* 占满整个可视区域 */
-  margin: 0;
-  padding: 0;
-}
-
-.login-box {
-  width: 400px;
-  background: rgba(255, 255, 255, 0.85);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
-
-.login-box h2 {
-  margin-bottom: 20px;
-  color: #333;
+.login-box, .user-content, .admin-content {
+  background: #fff;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-/* 调整输入框和按钮尺寸 */
-.login-box input[type="email"] {
+.login-box form, .user-content form, .admin-content form {
+  max-width: 300px;
+  margin: 0 auto;
+}
+input, textarea, button {
   width: 100%;
-  padding: 15px;
-  margin: 10px 0;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 8px;
+  margin: 5px 0;
   box-sizing: border-box;
-}
-
-.login-box button {
-  width: 100%;
-  padding: 15px;
-  margin: 10px 0;
   font-size: 16px;
+}
+input[type="email"]:disabled {
+  background: #eee;
+}
+button {
   background: #007bff;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  border-radius: 4px;
 }
-
-.login-box button:hover {
+button:hover {
   background: #0056b3;
+}
+/* Table styles for admin submissions */
+#submissionsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+#submissionsTable th, #submissionsTable td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 14px;
+  text-align: left;
+}
+#submissionsTable th {
+  background: #eee;
+}
+/* Event list in admin page */
+#eventsList {
+  list-style-type: none;
+  padding: 0;
+  margin: 10px 0;
+}
+#eventsList li {
+  margin: 5px 0;
+}
+#eventsList li button {
+  margin-left: 10px;
+  padding: 4px 8px;
+  font-size: 12px;
 }

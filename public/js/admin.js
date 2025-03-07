@@ -1,189 +1,123 @@
-// public/js/admin.js
-document.addEventListener('DOMContentLoaded', () => {
-  const eventForm = document.getElementById('eventForm');
-  const loadUsersBtn = document.getElementById('loadUsersBtn');
-  const userList = document.getElementById('userList');
-  // 用于活动管理的元素，统一使用 eventsContainer
-  const loadEventsBtn = document.getElementById('loadEventsBtn');
-  const eventsContainer = document.getElementById('events-container');
-  const cancelEditBtn = document.getElementById('cancelEditBtn');
-
-  // 用于标识是否处于编辑状态，如果不为 null 表示正在编辑某个活动
-  let editingEventId = null;
-
-  // ---------------------------
-  // 1. 提交活动信息（新建或编辑）
-  // ---------------------------
-  eventForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(eventForm);
-    const data = {
-      title: formData.get('title'),
-      date: formData.get('date'),
-      time: formData.get('time'),
-      location: formData.get('location'),
-      description: formData.get('description'),
-    };
-
-    try {
-      // 默认是新建活动
-      let url = '/api/admin/event';
-      let method = 'POST';
-
-      // 如果处于编辑模式，则调用 PUT 接口更新活动
-      if (editingEventId) {
-        url = `/api/admin/event/${editingEventId}`;
-        method = 'PUT';
-      }
-
-      const res = await fetch(url, {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (res.ok) {
-        alert(editingEventId ? 'Event updated!' : 'Event created!');
-        eventForm.reset();
-        // 退出编辑状态
-        editingEventId = null;
-        cancelEditBtn.style.display = 'none';
-        // 刷新活动列表
-        loadEvents();
-      } else {
-        alert('Failed to submit!');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Failed to submit!');
-    }
-  });
-
-  // ---------------------------
-  // 2. 加载用户提交信息
-  // ---------------------------
-  loadUsersBtn.addEventListener('click', async () => {
-    try {
-      const res = await fetch('/api/admin/users'); // 向 /api/admin/users 发 GET 请求
-      if (res.ok) {
-        const users = await res.json();
-        userList.innerHTML = '';
-        if (users.length === 0) {
-          userList.textContent = 'There is no user information!';
-          return;
-        }
-        users.forEach(u => {
-          const div = document.createElement('div');
-          div.textContent = `姓名: ${u.name}, 素食: ${u.isVegetarian}, 晚饭: ${u.hasDinner}, 过敏: ${u.allergies}`;
-          userList.appendChild(div);
-        });
-      } else {
-        alert('Loading failed!');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('There is an error in the request!');
-    }
-  });
-
-  // ---------------------------
-  // 3. 加载活动列表（供管理员管理）
-  // ---------------------------
-  loadEventsBtn.addEventListener('click', loadEvents);
-
-  async function loadEvents() {
-    try {
-      const res = await fetch('/api/admin/events'); // 后端需提供该接口返回所有活动
-      if (res.ok) {
-        const events = await res.json();
-        eventsContainer.innerHTML = '';
-        if (events.length === 0) {
-          eventsContainer.textContent = 'No events available.';
-          return;
-        }
-
-        events.forEach(event => {
-          const div = document.createElement('div');
-          div.innerHTML = `
-            <strong>${event.title}</strong><br/>
-            Date: ${event.date} Time: ${event.time}<br/>
-            Location: ${event.location}<br/>
-            Description: ${event.description}
-          `;
-          div.style.border = '1px solid #ccc';
-          div.style.padding = '10px';
-          div.style.margin = '10px 0';
-
-          // 删除按钮
-          const delBtn = document.createElement('button');
-          delBtn.textContent = 'Delete';
-          delBtn.style.marginRight = '10px';
-          delBtn.addEventListener('click', () => deleteEvent(event._id));
-
-          // 编辑按钮
-          const editBtn = document.createElement('button');
-          editBtn.textContent = 'Edit';
-          editBtn.addEventListener('click', () => editEvent(event));
-
-          // 添加按钮到活动项中
-          div.appendChild(document.createElement('br'));
-          div.appendChild(delBtn);
-          div.appendChild(editBtn);
-
-          eventsContainer.appendChild(div);
-        });
-      } else {
-        alert('Failed to load events!');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Error loading events!');
-    }
+document.addEventListener('DOMContentLoaded', function() {
+  const userEmail = localStorage.getItem('userEmail');
+  const userRole = localStorage.getItem('userRole');
+  if (!userEmail || userRole !== 'admin') {
+    // If not logged in as admin, redirect to login
+    window.location.href = 'login.html';
+    return;
   }
-
-  // ---------------------------
-  // 4. 删除活动
-  // ---------------------------
-  async function deleteEvent(id) {
-    if (!confirm('Are you sure you want to delete this event?')) {
-      return;
-    }
-    try {
-      const res = await fetch(`/api/admin/event/${id}`, {
-        method: 'DELETE',
-      });
-      if (res.ok) {
-        alert('Event deleted!');
-        loadEvents(); // 刷新活动列表
-      } else {
-        alert('Failed to delete event!');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Error deleting event!');
-    }
-  }
-
-  // ---------------------------
-  // 5. 编辑活动（填充表单，切换为编辑模式）
-  // ---------------------------
-  function editEvent(event) {
-    editingEventId = event._id; // 记录正在编辑的活动 ID
-    // 将活动数据填入表单中
-    eventForm.title.value = event.title;
-    eventForm.date.value = event.date;
-    eventForm.time.value = event.time;
-    eventForm.location.value = event.location;
-    eventForm.description.value = event.description;
-    // 显示“取消编辑”按钮
-    cancelEditBtn.style.display = 'inline';
-  }
-
-  // ---------------------------
-  // 6. 取消编辑
-  // ---------------------------
-  cancelEditBtn.addEventListener('click', () => {
-    editingEventId = null;
-    eventForm.reset();
-    cancelEditBtn.style.display = 'none';
-  });
+  // Load events and submissions data when page is ready
+  loadEvents();
+  loadSubmissions();
 });
+
+// Fetch and display the list of events
+async function loadEvents() {
+  try {
+    const res = await fetch('/api/events');
+    const events = await res.json();
+    if (res.ok) {
+      const eventsList = document.getElementById('eventsList');
+      eventsList.innerHTML = '';
+      events.forEach(evt => {
+        const li = document.createElement('li');
+        // Show event title and date (if available)
+        li.textContent = evt.title;
+        if (evt.date) {
+          const d = new Date(evt.date);
+          li.textContent += ' (' + d.toLocaleDateString() + ')';
+        }
+        // Create a delete button for each event
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', async () => {
+          if (confirm(`Delete event "${evt.title}"?`)) {
+            // Send DELETE request to remove event
+            await fetch(`/api/events/${evt._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
+              method: 'DELETE'
+            });
+            // Reload events and submissions lists after deletion
+            loadEvents();
+            loadSubmissions();
+          }
+        });
+        li.appendChild(delBtn);
+        eventsList.appendChild(li);
+      });
+    }
+  } catch (err) {
+    console.error('Error loading events:', err);
+  }
+}
+
+// Fetch and display all user submissions in the table
+async function loadSubmissions() {
+  try {
+    const res = await fetch('/api/submissions?adminEmail=' + encodeURIComponent(localStorage.getItem('userEmail')));
+    const submissions = await res.json();
+    if (res.ok) {
+      const tbody = document.getElementById('submissionsBody');
+      tbody.innerHTML = '';
+      submissions.forEach(sub => {
+        const tr = document.createElement('tr');
+        const nameTd = document.createElement('td');
+        nameTd.textContent = sub.name;
+        const emailTd = document.createElement('td');
+        emailTd.textContent = sub.email;
+        const phoneTd = document.createElement('td');
+        phoneTd.textContent = sub.phone || '';
+        const eventTd = document.createElement('td');
+        eventTd.textContent = sub.event ? sub.event.title : '';
+        tr.appendChild(nameTd);
+        tr.appendChild(emailTd);
+        tr.appendChild(phoneTd);
+        tr.appendChild(eventTd);
+        tbody.appendChild(tr);
+      });
+    }
+  } catch (err) {
+    console.error('Error loading submissions:', err);
+  }
+}
+
+// Handle new event creation form submission
+document.getElementById('eventForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const title = document.getElementById('eventTitleInput').value.trim();
+  const description = document.getElementById('eventDescInput').value.trim();
+  const date = document.getElementById('eventDateInput').value;  // date string (YYYY-MM-DD from input[type=date])
+  if (!title) {
+    alert('Event title is required');
+    return;
+  }
+  try {
+    const res = await fetch('/api/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        title: title, 
+        description: description, 
+        date: date, 
+        adminEmail: localStorage.getItem('userEmail') 
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      // Clear the form and reload events list on success
+      document.getElementById('eventForm').reset();
+      loadEvents();
+    } else {
+      alert(data.error || 'Failed to create event');
+    }
+  } catch (err) {
+    console.error('Error creating event:', err);
+    alert('Unable to create event. Please try again later.');
+  }
+});
+
+// Register the service worker for PWA
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(err => {
+    console.log('Service Worker registration failed:', err);
+  });
+}

@@ -1,32 +1,47 @@
-// sw.js (示例)
-const CACHE_NAME = 'event-pwa-cache-v1';
-const urlsToCache = [
+const cacheName = 'pwa-cache-v1';
+const staticAssets = [
   '/',
-  '/login.html',
-  '/user.html',
-  '/admin.html',
-  '/public/css/style.css',
-  '/public/js/admin.js',
-  '/public/js/user.js',
-  '/manifest.json'
-  // ...你需要缓存的其他文件
+  '/views/login.html',
+  '/views/user.html',
+  '/views/admin.html',
+  '/css/styles.css',
+  '/js/login.js',
+  '/js/user.js',
+  '/js/admin.js',
+  '/manifest.json',
+  '/images/icon-192.png',
+  '/images/icon-512.png'
 ];
 
-// 监听install事件，缓存所需文件
-self.addEventListener('install', (event) => {
+// Install event: cache all static assets for offline use
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(cacheName).then(cache => cache.addAll(staticAssets))
   );
+  console.log('Service Worker installed');
 });
 
-// 监听fetch事件，使用缓存
-self.addEventListener('fetch', (event) => {
+// Activate event: clean up old caches if any
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== cacheName).map(key => caches.delete(key))
+      );
+    })
+  );
+  console.log('Service Worker activated');
+});
+
+// Fetch event: serve cached content when offline or network fails
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // 如果有缓存则返回缓存，否则fetch
-      return response || fetch(event.request);
+    caches.match(event.request).then(cachedResponse => {
+      return cachedResponse || fetch(event.request).then(response => {
+        // We can optionally cache new requests here if desired
+        return response;
+      });
     })
   );
 });
