@@ -17,9 +17,9 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         localStorage.setItem('userRole', data.role);
         // Redirect based on role
         if (data.role === 'admin') {
-          window.location.href = 'admin.html';
+          window.location.href = '/views/admin.html';
         } else {
-          window.location.href = 'user.html';
+          window.location.href = '/views/user.html';
         }
       } else {
         alert(data.error || 'Login failed');
