@@ -1,46 +1,80 @@
-/* 全局样式 */
+/* Global reset */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background: url("../images/main.jpg") no-repeat center center fixed;
+  background-size: cover;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-}
-
-/* 容器居中 */
-.container {
-  width: 90%;
-  max-width: 500px;
   text-align: center;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* 主要标题 */
+/* Main title */
 .main-title {
   font-size: 24px;
   font-weight: bold;
   color: #007bff;
 }
 
-/* 副标题 */
+/* Sub title */
 .sub-title {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
-/* 活动容器 */
+/* Centering login form */
+h2 {
+  color: white;
+  font-size: 28px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Input and button styling */
+input {
+  width: 280px;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid white;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+button {
+  width: 300px;
+  padding: 12px;
+  border: none;
+  background: #007bff;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+/* Error message */
+#error {
+  color: red;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Event container */
 .event-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* 活动卡片 */
+/* Event cards */
 .event-card {
   padding: 15px;
   border-radius: 10px;
@@ -52,7 +86,7 @@ body {
   transition: transform 0.2s;
 }
 
-/* 随机颜色 */
+/* Alternating colors */
 .event-card:nth-child(odd) {
   background-color: #ff6b6b;
 }
@@ -62,24 +96,4 @@ body {
 
 .event-card:hover {
   transform: scale(1.05);
-}
-
-/* 表单样式 */
-input, button {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-}
-
-button {
-  background: #007bff;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0056b3;
 }
