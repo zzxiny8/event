@@ -1,74 +1,85 @@
-/* Global styles and layout */
+/* 全局样式 */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f4f4f4;
-}
-.container {
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  min-height: 100vh;
 }
-.login-box, .user-content, .admin-content {
+
+/* 容器居中 */
+.container {
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
   background: #fff;
   padding: 20px;
-  margin: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
-.login-box form, .user-content form, .admin-content form {
-  max-width: 300px;
-  margin: 0 auto;
+
+/* 主要标题 */
+.main-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
 }
-input, textarea, button {
+
+/* 副标题 */
+.sub-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* 活动容器 */
+.event-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 活动卡片 */
+.event-card {
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+/* 随机颜色 */
+.event-card:nth-child(odd) {
+  background-color: #ff6b6b;
+}
+.event-card:nth-child(even) {
+  background-color: #6b5bff;
+}
+
+.event-card:hover {
+  transform: scale(1.05);
+}
+
+/* 表单样式 */
+input, button {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin: 5px 0;
-  box-sizing: border-box;
+  border: none;
+  border-radius: 5px;
   font-size: 16px;
 }
-input[type="email"]:disabled {
-  background: #eee;
-}
+
 button {
   background: #007bff;
-  color: #fff;
-  border: none;
-  font-size: 16px;
+  color: white;
   cursor: pointer;
-  border-radius: 4px;
 }
+
 button:hover {
   background: #0056b3;
-}
-/* Table styles for admin submissions */
-#submissionsTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-}
-#submissionsTable th, #submissionsTable td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  font-size: 14px;
-  text-align: left;
-}
-#submissionsTable th {
-  background: #eee;
-}
-/* Event list in admin page */
-#eventsList {
-  list-style-type: none;
-  padding: 0;
-  margin: 10px 0;
-}
-#eventsList li {
-  margin: 5px 0;
-}
-#eventsList li button {
-  margin-left: 10px;
-  padding: 4px 8px;
-  font-size: 12px;
 }

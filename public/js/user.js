@@ -1,76 +1,155 @@
-document.addEventListener('DOMContentLoaded', async function() {
-  // Check that user is logged in and is a normal user (not admin)
-  const userEmail = localStorage.getItem('userEmail');
-  const userRole = localStorage.getItem('userRole');
-  if (!userEmail || userRole !== 'user') {
-    // Not logged in or wrong role, redirect to login
-    window.location.href = 'login.html';
-    return;
-  }
-  // Set the email field to the logged-in user's email
-  document.getElementById('email').value = userEmail;
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const { ServerApiVersion } = require('mongodb');
+const { User, Event } = require('./models');
+const path = require('path');
 
-  // Fetch events to display event info
+const app = express();
+const PORT = process.env.PORT || 3000;
+const ADMIN_EMAIL = 'xinyue.zhao@udtrucks.com';
+
+// Middleware setup
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors()); // Enable CORS for frontend access
+app.use(express.static('public'));
+app.use('/views', express.static(path.join(__dirname, 'public/views')));
+
+// Serve login page at root URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/views/login.html'));
+});
+
+// User login API
+app.post('/api/login', (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+  if (!email.endsWith('@udtrucks.com')) {
+    return res.status(401).json({ error: 'Unauthorized: Email must be from udtrucks.com domain' });
+  }
+  let role = 'user';
+  if (email.toLowerCase() === ADMIN_EMAIL) {
+    role = 'admin';
+  }
+  return res.json({ message: 'Login successful', email: email, role: role });
+});
+
+// Get all events (basic info only)
+app.get('/api/events', async (req, res) => {
   try {
-    const res = await fetch('/api/events');
-    const events = await res.json();
-    if (res.ok && events.length > 0) {
-      // Display the latest event (first in the sorted list)
-      const event = events[0];
-      document.getElementById('eventTitle').textContent = event.title;
-      document.getElementById('eventDescription').textContent = event.description || '';
-      if (event.date) {
-        const dateObj = new Date(event.date);
-        document.getElementById('eventDate').textContent = 'Date: ' + dateObj.toLocaleDateString();
-      }
-      // Store event ID in the form (using dataset) for use on submit
-      document.getElementById('userForm').dataset.eventId = event._id;
-    } else {
-      document.getElementById('eventTitle').textContent = 'No events available.';
-      document.getElementById('eventDescription').textContent = '';
-      document.getElementById('eventDate').textContent = '';
-    }
+    const events = await Event.find({}, 'title date createdAt'); // Only return necessary fields
+    res.json(events);
   } catch (err) {
     console.error('Error fetching events:', err);
-    document.getElementById('eventTitle').textContent = 'Error loading event data.';
+    res.status(500).json({ error: 'Internal error fetching events' });
   }
 });
 
-// Handle user info form submission
-document.getElementById('userForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const eventId = e.target.dataset.eventId;
-  if (!name || !email || !eventId) {
-    alert('Please complete all required fields.');
-    return;
-  }
+// Get a single event's details
+app.get('/api/events/:id', async (req, res) => {
   try {
-    const res = await fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name, email: email, phone: phone, eventId: eventId })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      alert('Submitted successfully!');
-      // Clear the form after successful submission
-      document.getElementById('userForm').reset();
-      // (Optionally, you could show a confirmation message on the page instead of alert)
-    } else {
-      alert(data.error || 'Submission failed');
-    }
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ error: 'Event not found' });
+    res.json(event);
   } catch (err) {
-    console.error('Error submitting form:', err);
-    alert('Unable to submit. Please try again later.');
+    console.error('Error fetching event:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Register the service worker for PWA
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(err => {
-    console.log('Service Worker registration failed:', err);
-  });
-}
+// Admin creates an event
+app.post('/api/events', async (req, res) => {
+  try {
+    const { title, description, date, adminEmail } = req.body;
+    if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const event = new Event({
+      title: title,
+      description: description,
+      date: date ? new Date(date) : undefined
+    });
+    await event.save();
+    return res.status(201).json({ message: 'Event created successfully', event: event });
+  } catch (err) {
+    console.error('Error creating event:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// User submits event registration
+app.post('/api/submit', async (req, res) => {
+  try {
+    const { name, email, phone, eventId } = req.body;
+    if (!name || !email || !eventId) {
+      return res.status(400).json({ error: 'Please fill in all required fields' });
+    }
+    if (!email.endsWith('@udtrucks.com')) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(400).json({ error: 'Event does not exist' });
+    }
+    const newUser = new User({ name, email, phone, event: event._id });
+    await newUser.save();
+    return res.status(201).json({ message: 'Registration successful' });
+  } catch (err) {
+    console.error('Error submitting user info:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Get all user submissions (admin only)
+app.get('/api/submissions', async (req, res) => {
+  try {
+    const adminEmail = req.query.adminEmail;
+    if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const submissions = await User.find().populate('event');
+    res.json(submissions);
+  } catch (err) {
+    console.error('Error fetching submissions:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Delete an event (admin only)
+app.delete('/api/events/:id', async (req, res) => {
+  try {
+    const adminEmail = req.query.adminEmail;
+    if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const eventId = req.params.id;
+    await Event.findByIdAndDelete(eventId);
+    await User.deleteMany({ event: eventId });
+    res.json({ message: 'Event deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting event:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Connect to MongoDB and start the server
+mongoose.connect(
+  'mongodb+srv://zhaoxinyue:1062899138Zxy%40@cluster0.0ri2z.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+  {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+  }
+)
+  .then(() => {
+    console.log('MongoDB connected successfully!');
+    app.listen(PORT, () => {
+      console.log(`Server is running at http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => console.error('MongoDB connection error:', err));
