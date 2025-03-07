@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const { ServerApiVersion } = require('mongodb');
 const { User, Event } = require('./models');
 const path = require('path');
@@ -12,29 +11,35 @@ const ADMIN_EMAIL = 'xinyue.zhao@udtrucks.com';
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); // Enable CORS for frontend access
-app.use(express.static('public'));
-app.use("/views", express.static(path.join(__dirname, "public/views"))); // Ensure views directory is accessible
+app.use(express.static('public'));  // Serve static files from the "public" directory
+app.use("/views", express.static(path.join(__dirname, "public/views"))); // 让 Express 提供 views 目录
 
-// Serve login page at root URL
+// Serve the login page at the root URL
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
-// User login API
+// User login API – checks email domain and assigns role
 app.post('/api/login', (req, res) => {
   const { email } = req.body;
-  if (!email) return res.status(400).json({ error: 'Email is required' });
-  if (!email.endsWith('@udtrucks.com')) return res.status(401).json({ error: 'Unauthorized: Email must be from udtrucks.com domain' });
-
-  const role = email.toLowerCase() === ADMIN_EMAIL ? 'admin' : 'user';
-  return res.json({ message: 'Login successful', email, role });
+  if (!email) {
+    return res.status(400).json({ error: 'Email is required' });
+  }
+  if (!email.endsWith('@udtrucks.com')) {
+    return res.status(401).json({ error: 'Unauthorized: Email must be a udtrucks.com address' });
+  }
+  let role = 'user';
+  if (email.toLowerCase() === ADMIN_EMAIL) {
+    role = 'admin';
+  }
+  // In a real app, you'd handle password verification and sessions/JWT here.
+  return res.json({ message: 'Login successful', email: email, role: role });
 });
 
-// Get all events (only title, date, and ID)
+// Get all events (available to any logged-in user or admin)
 app.get('/api/events', async (req, res) => {
   try {
-    const events = await Event.find({}, 'title date _id').sort({ createdAt: -1 });
+    const events = await Event.find().sort({ createdAt: -1 });  // latest created events first
     res.json(events);
   } catch (err) {
     console.error('Error fetching events:', err);
@@ -42,50 +47,47 @@ app.get('/api/events', async (req, res) => {
   }
 });
 
-// Get single event details
-app.get('/api/events/:id', async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.id);
-    if (!event) return res.status(404).json({ error: 'Event not found' });
-    res.json(event);
-  } catch (err) {
-    console.error('Error fetching event:', err);
-    res.status(500).json({ error: 'Internal error fetching event' });
-  }
-});
-
 // Create a new event (admin only)
 app.post('/api/events', async (req, res) => {
   try {
     const { title, description, date, adminEmail } = req.body;
+    // Basic admin authentication check
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
-      return res.status(403).json({ error: 'Forbidden: Admin access required' });
+      return res.status(403).json({ error: 'Forbidden' });
     }
-    const event = new Event({ title, description, date: date ? new Date(date) : undefined });
+    const event = new Event({
+      title: title,
+      description: description,
+      date: date ? new Date(date) : undefined
+    });
     await event.save();
-    return res.status(201).json({ message: 'Event created successfully', event });
+    return res.status(201).json({ message: 'Event created', event: event });
   } catch (err) {
     console.error('Error creating event:', err);
     res.status(500).json({ error: 'Internal error creating event' });
   }
 });
 
-// User submits event registration
+// Submit user info for an event (user registration)
 app.post('/api/submit', async (req, res) => {
   try {
     const { name, email, phone, eventId } = req.body;
-    if (!name || !email || !eventId) return res.status(400).json({ error: 'Please fill in all required fields' });
-    if (!email.endsWith('@udtrucks.com')) return res.status(401).json({ error: 'Unauthorized: Email must be from udtrucks.com' });
-
+    if (!name || !email || !eventId) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    if (!email.endsWith('@udtrucks.com')) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
     const event = await Event.findById(eventId);
-    if (!event) return res.status(400).json({ error: 'Invalid event ID' });
-
-    const newUser = new User({ name, email, phone, event: event._id });
+    if (!event) {
+      return res.status(400).json({ error: 'Invalid event ID' });
+    }
+    const newUser = new User({ name: name, email: email, phone: phone, event: event._id });
     await newUser.save();
-    return res.status(201).json({ message: 'Registration successful' });
+    return res.status(201).json({ message: 'Submission successful' });
   } catch (err) {
     console.error('Error submitting user info:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal error submitting info' });
   }
 });
 
@@ -94,9 +96,9 @@ app.get('/api/submissions', async (req, res) => {
   try {
     const adminEmail = req.query.adminEmail;
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
-      return res.status(403).json({ error: 'Forbidden: Admin access required' });
+      return res.status(403).json({ error: 'Forbidden' });
     }
-    const submissions = await User.find().populate('event', 'title date');
+    const submissions = await User.find().populate('event');
     res.json(submissions);
   } catch (err) {
     console.error('Error fetching submissions:', err);
@@ -109,17 +111,15 @@ app.delete('/api/events/:id', async (req, res) => {
   try {
     const adminEmail = req.query.adminEmail;
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
-      return res.status(403).json({ error: 'Forbidden: Admin access required' });
+      return res.status(403).json({ error: 'Forbidden' });
     }
-
     const eventId = req.params.id;
     await Event.findByIdAndDelete(eventId);
-    await User.deleteMany({ event: eventId });
-
-    res.json({ message: 'Event deleted successfully' });
+    await User.deleteMany({ event: eventId });  // remove associated user submissions for this event
+    res.json({ message: 'Event deleted' });
   } catch (err) {
     console.error('Error deleting event:', err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal error deleting event' });
   }
 });
 
@@ -135,9 +135,9 @@ mongoose.connect(
   }
 )
   .then(() => {
-    console.log('MongoDB connected successfully!');
+    console.log('MongoDB connected!');
     app.listen(PORT, () => {
-      console.log(`Server is running at http://localhost:${PORT}`);
+      console.log(`Server is running on http://localhost:${PORT}`);
     });
   })
   .catch(err => console.error('MongoDB connection error:', err));

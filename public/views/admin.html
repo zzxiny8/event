@@ -1,127 +1,36 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const userEmail = localStorage.getItem("userEmail");
-  const userRole = localStorage.getItem("userRole");
-
-  if (!userEmail || userRole !== "admin") {
-      window.location.href = "login.html"; // 不是管理员，重定向到登录页面
-      return;
-  }
-
-  loadEvents();
-  loadSubmissions();
-});
-
-// 获取并显示所有事件
-async function loadEvents() {
-  try {
-      const res = await fetch("/api/events");
-      const events = await res.json();
-
-      if (res.ok) {
-          const eventsList = document.getElementById("eventsList");
-          eventsList.innerHTML = "";
-
-          events.forEach(evt => {
-              const li = document.createElement("li");
-              li.textContent = evt.title;
-
-              if (evt.date) {
-                  const d = new Date(evt.date);
-                  li.textContent += " (" + d.toLocaleDateString() + ")";
-              }
-
-              const delBtn = document.createElement("button");
-              delBtn.textContent = "Delete";
-              delBtn.addEventListener("click", async () => {
-                  if (confirm(`Delete event "${evt.title}"?`)) {
-                      await fetch(`/api/events/${evt._id}?adminEmail=${encodeURIComponent(userEmail)}`, {
-                          method: "DELETE"
-                      });
-                      loadEvents();
-                      loadSubmissions();
-                  }
-              });
-
-              li.appendChild(delBtn);
-              eventsList.appendChild(li);
-          });
-      }
-  } catch (err) {
-      console.error("Error loading events:", err);
-  }
-}
-
-// 获取并显示所有用户提交信息
-async function loadSubmissions() {
-  try {
-      const res = await fetch(`/api/submissions?adminEmail=${encodeURIComponent(localStorage.getItem("userEmail"))}`);
-      const submissions = await res.json();
-
-      if (res.ok) {
-          const tbody = document.getElementById("submissionsBody");
-          tbody.innerHTML = "";
-
-          submissions.forEach(sub => {
-              const tr = document.createElement("tr");
-
-              const nameTd = document.createElement("td");
-              nameTd.textContent = sub.name;
-
-              const emailTd = document.createElement("td");
-              emailTd.textContent = sub.email;
-
-              const phoneTd = document.createElement("td");
-              phoneTd.textContent = sub.phone || "N/A";
-
-              const eventTd = document.createElement("td");
-              eventTd.textContent = sub.event ? sub.event.title : "Unknown Event"; // 这里确保 event 存在
-
-              tr.appendChild(nameTd);
-              tr.appendChild(emailTd);
-              tr.appendChild(phoneTd);
-              tr.appendChild(eventTd);
-              tbody.appendChild(tr);
-          });
-      }
-  } catch (err) {
-      console.error("Error loading submissions:", err);
-  }
-}
-
-// 事件创建表单
-document.getElementById("eventForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const title = document.getElementById("eventTitleInput").value.trim();
-  const description = document.getElementById("eventDescInput").value.trim();
-  const date = document.getElementById("eventDateInput").value;
-
-  if (!title) {
-      alert("Event title is required");
-      return;
-  }
-
-  try {
-      const res = await fetch("/api/events", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-              title: title,
-              description: description,
-              date: date,
-              adminEmail: localStorage.getItem("userEmail")
-          })
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-          document.getElementById("eventForm").reset();
-          loadEvents();
-      } else {
-          alert(data.error || "Failed to create event");
-      }
-  } catch (err) {
-      console.error("Error creating event:", err);
-      alert("Unable to create event. Please try again later.");
-  }
-});
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#007bff" />
+  <title>Admin - Event Management</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="manifest" href="../manifest.json" />
+</head>
+<body>
+  <div class="container">
+    <div class="admin-content">
+      <h2>Create Event</h2>
+      <form id="eventForm">
+        <input type="text" id="eventTitleInput" placeholder="Event Title" required /><br />
+        <textarea id="eventDescInput" placeholder="Event Description"></textarea><br />
+        <input type="date" id="eventDateInput" placeholder="Event Date" /><br />
+        <button type="submit">Create Event</button>
+      </form>
+      <h2>Current Events</h2>
+      <ul id="eventsList"></ul>
+      <h2>User Submissions</h2>
+      <table id="submissionsTable">
+        <thead>
+          <tr>
+            <th>Name</th><th>Email</th><th>Phone</th><th>Event</th>
+          </tr>
+        </thead>
+        <tbody id="submissionsBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <script src="../js/admin.js"></script>
+</body>
+</html>
