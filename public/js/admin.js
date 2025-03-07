@@ -3,11 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const eventForm = document.getElementById('eventForm');
   const loadUsersBtn = document.getElementById('loadUsersBtn');
   const userList = document.getElementById('userList');
-  // 新增用于活动管理的元素
+  // 用于活动管理的元素，统一使用 eventsContainer
   const loadEventsBtn = document.getElementById('loadEventsBtn');
-  const eventList = document.getElementById('eventList');
-  const cancelEditBtn = document.getElementById('cancelEditBtn');
   const eventsContainer = document.getElementById('events-container');
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
 
   // 用于标识是否处于编辑状态，如果不为 null 表示正在编辑某个活动
   let editingEventId = null;
@@ -96,9 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/api/admin/events'); // 后端需提供该接口返回所有活动
       if (res.ok) {
         const events = await res.json();
-        eventContainer.innerHTML = '';
+        eventsContainer.innerHTML = '';
         if (events.length === 0) {
-          eventContainer.textContent = 'No events available.';
+          eventsContainer.textContent = 'No events available.';
           return;
         }
 
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
           div.appendChild(delBtn);
           div.appendChild(editBtn);
 
-          eventContainer.appendChild(div);
+          eventsContainer.appendChild(div);
         });
       } else {
         alert('Failed to load events!');

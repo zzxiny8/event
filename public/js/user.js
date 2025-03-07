@@ -1,6 +1,6 @@
 // public/js/user.js
 document.addEventListener('DOMContentLoaded', () => {
-    const eventsContainer = document.getElementById('events-container');
+const eventsContainer = document.getElementById('events-container');
   
    // 如果需要背景图，请定义图片数组
    const colors = [
