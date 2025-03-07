@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { ServerApiVersion } = require('mongodb');
 const { User, Event } = require('./models');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,38 +12,45 @@ const ADMIN_EMAIL = 'xinyue.zhao@udtrucks.com';
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));  // Serve static files from the "public" directory
+app.use(cors()); // Enable CORS for frontend access
+app.use(express.static('public'));
+app.use("/views", express.static(path.join(__dirname, "public/views"))); // Ensure views directory is accessible
 
-const path = require('path');
-// Serve the login page at the root URL
+// Serve login page at root URL
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/views/login.html'));
 });
 
-// User login API – checks email domain and assigns role
+// User login API
 app.post('/api/login', (req, res) => {
   const { email } = req.body;
-  if (!email) {
-    return res.status(400).json({ error: 'Email is required' });
-  }
-  if (!email.endsWith('@udtrucks.com')) {
-    return res.status(401).json({ error: 'Unauthorized: Email must be a udtrucks.com address' });
-  }
-  let role = 'user';
-  if (email.toLowerCase() === ADMIN_EMAIL) {
-    role = 'admin';
-  }
-  return res.json({ message: 'Login successful', email: email, role: role });
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+  if (!email.endsWith('@udtrucks.com')) return res.status(401).json({ error: 'Unauthorized: Email must be from udtrucks.com domain' });
+
+  const role = email.toLowerCase() === ADMIN_EMAIL ? 'admin' : 'user';
+  return res.json({ message: 'Login successful', email, role });
 });
 
-// Get all events (available to any logged-in user or admin)
+// Get all events (only title, date, and ID)
 app.get('/api/events', async (req, res) => {
   try {
-    const events = await Event.find().sort({ createdAt: -1 });  // latest created events first
+    const events = await Event.find({}, 'title date _id').sort({ createdAt: -1 });
     res.json(events);
   } catch (err) {
     console.error('Error fetching events:', err);
     res.status(500).json({ error: 'Internal error fetching events' });
+  }
+});
+
+// Get single event details
+app.get('/api/events/:id', async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ error: 'Event not found' });
+    res.json(event);
+  } catch (err) {
+    console.error('Error fetching event:', err);
+    res.status(500).json({ error: 'Internal error fetching event' });
   }
 });
 
@@ -50,58 +59,33 @@ app.post('/api/events', async (req, res) => {
   try {
     const { title, description, date, adminEmail } = req.body;
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ error: 'Forbidden: Admin access required' });
     }
-    const event = new Event({
-      title: title,
-      description: description,
-      date: date ? new Date(date) : undefined
-    });
+    const event = new Event({ title, description, date: date ? new Date(date) : undefined });
     await event.save();
-    return res.status(201).json({ message: 'Event created', event: event });
+    return res.status(201).json({ message: 'Event created successfully', event });
   } catch (err) {
     console.error('Error creating event:', err);
     res.status(500).json({ error: 'Internal error creating event' });
   }
 });
 
-// Submit user info for an event (user registration) [UPDATED]
+// User submits event registration
 app.post('/api/submit', async (req, res) => {
   try {
     const { name, email, phone, eventId } = req.body;
-
-    console.log("Received submission:", req.body); // Log received data
-
-    if (!name || !email || !eventId) {
-      console.warn("Submission failed: Missing required fields.");
-      return res.status(400).json({ error: 'Missing required fields' });
-    }
-
-    if (!email.endsWith('@udtrucks.com')) {
-      console.warn("Unauthorized email attempted submission:", email);
-      return res.status(401).json({ error: 'Unauthorized email' });
-    }
+    if (!name || !email || !eventId) return res.status(400).json({ error: 'Please fill in all required fields' });
+    if (!email.endsWith('@udtrucks.com')) return res.status(401).json({ error: 'Unauthorized: Email must be from udtrucks.com' });
 
     const event = await Event.findById(eventId);
-    if (!event) {
-      console.warn("Invalid event ID provided:", eventId);
-      return res.status(400).json({ error: 'Invalid event ID' });
-    }
+    if (!event) return res.status(400).json({ error: 'Invalid event ID' });
 
-    const newUser = new User({
-      name: name,
-      email: email,
-      phone: phone,
-      event: event._id
-    });
-
+    const newUser = new User({ name, email, phone, event: event._id });
     await newUser.save();
-    console.log("Submission saved successfully!");
-
-    return res.status(201).json({ message: 'Submission successful' });
+    return res.status(201).json({ message: 'Registration successful' });
   } catch (err) {
     console.error('Error submitting user info:', err);
-    res.status(500).json({ error: 'Internal error submitting info' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -110,9 +94,9 @@ app.get('/api/submissions', async (req, res) => {
   try {
     const adminEmail = req.query.adminEmail;
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ error: 'Forbidden: Admin access required' });
     }
-    const submissions = await User.find().populate('event');
+    const submissions = await User.find().populate('event', 'title date');
     res.json(submissions);
   } catch (err) {
     console.error('Error fetching submissions:', err);
@@ -125,15 +109,17 @@ app.delete('/api/events/:id', async (req, res) => {
   try {
     const adminEmail = req.query.adminEmail;
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ error: 'Forbidden: Admin access required' });
     }
+
     const eventId = req.params.id;
     await Event.findByIdAndDelete(eventId);
     await User.deleteMany({ event: eventId });
-    res.json({ message: 'Event deleted' });
+
+    res.json({ message: 'Event deleted successfully' });
   } catch (err) {
     console.error('Error deleting event:', err);
-    res.status(500).json({ error: 'Internal error deleting event' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
@@ -149,9 +135,9 @@ mongoose.connect(
   }
 )
   .then(() => {
-    console.log('MongoDB connected!');
+    console.log('MongoDB connected successfully!');
     app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
+      console.log(`Server is running at http://localhost:${PORT}`);
     });
   })
   .catch(err => console.error('MongoDB connection error:', err));

@@ -1,47 +1,67 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const urlParams = new URLSearchParams(window.location.search);
-  const eventId = urlParams.get("eventId");
+  // Ensure user is logged in
   const userEmail = localStorage.getItem("userEmail");
-
-  if (!eventId || !userEmail) {
-      window.location.href = "/views/user.html"; // Redirect if missing data
+  if (!userEmail || !userEmail.endsWith("@udtrucks.com")) {
+      window.location.href = "/views/login.html"; // Redirect to login if not authenticated
       return;
   }
 
-  // 预填充 Email
-  document.getElementById("email").value = userEmail;
+  document.getElementById("email").value = userEmail; // Autofill user email
 
-  // 监听表单提交事件
-  document.getElementById("userForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
+  const eventListContainer = document.getElementById("eventListContainer");
+  const eventDetailsContainer = document.getElementById("eventDetailsContainer");
+  const eventList = document.getElementById("eventList");
+  const backButton = document.getElementById("backButton");
 
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
+  // Fetch events and display them as clickable cards
+  try {
+      const res = await fetch("/api/events");
+      const events = await res.json();
 
-      if (!name || !email || !eventId) {
-          alert("Please fill in all required fields.");
-          return;
-      }
+      if (res.ok && events.length > 0) {
+          eventList.innerHTML = ""; // Clear existing content
 
-      try {
-          const res = await fetch("/api/submit", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ name, email, phone, eventId })
+          events.forEach(event => {
+              const eventCard = document.createElement("div");
+              eventCard.classList.add("event-card");
+              eventCard.style.backgroundColor = getRandomColor(); // Assign a random color
+
+              eventCard.innerHTML = `
+                  <h2 class="event-title">${event.title}</h2>
+                  <p class="event-date">${event.date ? `📅 ${new Date(event.date).toLocaleDateString()}` : "📅 No date available"}</p>
+              `;
+
+              eventCard.addEventListener("click", () => showEventDetails(event));
+
+              eventList.appendChild(eventCard);
           });
-
-          const data = await res.json();
-
-          if (res.ok) {
-              alert("Submission successful!");
-              window.location.href = "/views/user.html";
-          } else {
-              alert("Submission failed: " + (data.error || "Unknown error"));
-          }
-      } catch (err) {
-          console.error("Submission error:", err);
-          alert("Submission failed. Please try again.");
+      } else {
+          eventList.innerHTML = "<p class='no-events'>No events available.</p>";
       }
+  } catch (err) {
+      console.error("Error fetching events:", err);
+      eventList.innerHTML = "<p class='error'>Error loading events. Please try again later.</p>";
+  }
+
+  // Function to show event details
+  function showEventDetails(event) {
+      document.getElementById("eventTitle").textContent = event.title;
+      document.getElementById("eventDescription").textContent = event.description || "No description available";
+      document.getElementById("eventDate").textContent = event.date ? `📅 Date: ${new Date(event.date).toLocaleDateString()}` : "📅 Date: Not provided";
+
+      eventListContainer.style.display = "none";
+      eventDetailsContainer.style.display = "block";
+  }
+
+  // Function to go back to event list
+  backButton.addEventListener("click", function () {
+      eventDetailsContainer.style.display = "none";
+      eventListContainer.style.display = "block";
   });
 });
+
+// Function to generate random colors for event cards
+function getRandomColor() {
+  const colors = ["#FF6B6B", "#6B5BFF", "#28A745", "#FFC107", "#17A2B8"];
+  return colors[Math.floor(Math.random() * colors.length)];
+}

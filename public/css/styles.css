@@ -1,107 +1,9 @@
-/* Global reset */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: url("../images/main.jpg") no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  text-align: center;
-}
-
-/* Main title */
-.main-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #007bff;
-}
-
-/* Sub title */
-.sub-title {
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-/* Centering login form */
-h2 {
-  color: white;
-  font-size: 28px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* Input and button styling */
-input {
-  width: 95%;
-  padding: 12px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  background: rgba(255, 255, 255, 0.9);
-}
-
-/* Labels: Make them align left */
-form label {
-  width: 100%;
-  text-align: left;
-  font-weight: bold;
-  margin-top: 10px;
-  font-size: 16px;
-}
-
-/* Form container */
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 500px;
-}
-
-/* Buttons */
-button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  font-size: 18px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 15px;
-}
-
-/* Submit Button */
-button[type="submit"] {
-  background: #007bff;
-  color: white;
-}
-
-button[type="submit"]:hover {
-  background: #0056b3;
-}
-
-/* Back Button */
-.back-btn {
-  background: #ff4d4d;
-  color: white;
-}
-
-.back-btn:hover {
-  background: #cc0000;
-}
-
-/* ---- Event Page Styling ---- */
-
 /* Event container */
 .event-container {
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-top: 20px;
-  width: 90%;
-  max-width: 600px;
 }
 
 /* Clickable event cards */
@@ -117,6 +19,26 @@ button[type="submit"]:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Event title */
+.event-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Event date */
+.event-date {
+  font-size: 16px;
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+/* Hover effect */
+.event-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
 /* Alternating colors */
 .event-card:nth-child(odd) {
   background-color: #ff6b6b;
@@ -125,19 +47,18 @@ button[type="submit"]:hover {
   background-color: #6b5bff;
 }
 
-.event-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+/* Back button */
+.back-btn {
+  margin-top: 20px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-/* Event details container */
-#eventDetailsContainer {
-  display: none;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 90%;
-  max-width: 600px;
+.back-btn:hover {
+  background: #cc0000;
 }
