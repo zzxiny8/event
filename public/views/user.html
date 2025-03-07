@@ -1,57 +1,45 @@
-<div id="eventDetailsContainer">
-  <h2 id="eventTitle"></h2>
-  <p id="eventDescription"></p>
-  <p id="eventDate"></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">DX is for better life!</h1>
+        
+        <!-- Event List Section -->
+        <div id="eventListContainer">
+            <h2 class="sub-title">Available Events</h2>
+            <div id="eventList" class="event-container"></div>
+        </div>
 
-  <h3>Your Information</h3>
-  <form id="userForm">
-      <label for="name">Your Name</label>
-      <input type="text" id="name" placeholder="Your Name" required>
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Events</title>
-          <link rel="stylesheet" href="../css/styles.css">
-      </head>
-      <body>
-          <div class="container">
-              <h1 class="main-title">DX is for better life!</h1>
-              
-              <!-- Event List Section -->
-              <div id="eventListContainer">
-                  <h2 class="sub-title">Available Events</h2>
-                  <div id="eventList" class="event-container"></div>
-              </div>
-      
-              <!-- Event Details Section (Initially Hidden) -->
-              <div id="eventDetailsContainer" style="display: none;">
-                  <h2 id="eventTitle"></h2>
-                  <p id="eventDescription"></p>
-                  <p id="eventDate"></p>
-      
-                  <h3>Your Information</h3>
-                  <form id="userForm">
-                      <label>Your Name</label>
-                      <input type="text" id="name" placeholder="Your Name" required>
-                      
-                      <label>Email</label>
-                      <input type="email" id="email" disabled>
-      
-                      <label>Phone Number (optional)</label>
-                      <input type="text" id="phone" placeholder="Phone Number (optional)">
-      
-                      <button type="submit">Submit</button>
-                  </form>
-      
-                  <button id="backButton" class="back-btn">Back to Events</button>
-              </div>
-          </div>
-      
-          <script src="../js/user.js"></script>
-      </body>
-      </html>
-      
-  <button id="backButton" class="back-btn">Back to Events</button>
-</div>
+        <!-- Event Details Section (Initially Hidden) -->
+        <div id="eventDetailsContainer" style="display: none;">
+            <h2 id="eventTitle"></h2>
+            <p id="eventDescription"></p>
+            <p id="eventDate"></p>
+
+            <h3>Your Information</h3>
+            <form id="userForm">
+                <label>Your Name</label>
+                <input type="text" id="name" placeholder="Your Name" required>
+                
+                <label>Email</label>
+                <input type="email" id="email" disabled>
+
+                <label>Phone Number (optional)</label>
+                <input type="text" id="phone" placeholder="Phone Number (optional)">
+
+                <button type="submit">Submit</button>
+            </form>
+
+            <button id="backButton" class="back-btn">Back to Events</button>
+        </div>
+    </div>
+
+    <script src="../js/user.js"></script>
+</body>
+</html>
