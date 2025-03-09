@@ -2,12 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const userEmail = localStorage.getItem('userEmail');
   const userRole = localStorage.getItem('userRole');
   if (!userEmail || userRole !== 'admin') {
-    // If not logged in as admin, redirect to login
-    window.location.href = 'login.html';
+    window.location.href = 'login.html'; // Redirect to login if not admin
     return;
   }
 
-  // Load events and submissions data when page is ready
   loadEvents();
   loadSubmissions();
 });
@@ -26,7 +24,7 @@ async function loadEvents() {
         li.textContent = evt.title;
         if (evt.date) {
           const d = new Date(evt.date);
-          li.textContent += ' (' + d.toLocaleDateString() + ')';
+          li.textContent += ` (${d.toLocaleDateString()} ${d.toLocaleTimeString()})`;
         }
 
         // Delete button
@@ -57,7 +55,7 @@ async function loadEvents() {
   }
 }
 
-// Function to edit an event
+// Function to edit an event (now includes time)
 function editEvent(eventObj) {
   const newTitle = prompt("Enter new title:", eventObj.title);
   if (newTitle === null) return;
@@ -68,10 +66,17 @@ function editEvent(eventObj) {
   const newDate = prompt("Enter new date (YYYY-MM-DD):", eventObj.date ? eventObj.date.slice(0, 10) : "");
   if (newDate === null) return;
 
+  const newTime = prompt("Enter new time (HH:MM):", eventObj.date ? new Date(eventObj.date).toTimeString().slice(0, 5) : "");
+  if (newTime === null) return;
+
   fetch(`/api/events/${eventObj._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
     method: 'PUT',
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title: newTitle, description: newDesc, date: newDate })
+    body: JSON.stringify({ 
+      title: newTitle, 
+      description: newDesc, 
+      date: `${newDate}T${newTime}:00` // Combine date & time
+    })
   })
     .then(res => res.json())
     .then(data => {
@@ -88,7 +93,7 @@ function editEvent(eventObj) {
     });
 }
 
-// Fetch and display all user submissions in the table
+// Fetch and display all user submissions
 async function loadSubmissions() {
   try {
     const res = await fetch('/api/submissions?adminEmail=' + encodeURIComponent(localStorage.getItem('userEmail')));
@@ -148,14 +153,15 @@ async function loadSubmissions() {
   }
 }
 
-// Handle new event creation form submission
+// Handle new event creation form submission (includes time)
 document.getElementById('eventForm').addEventListener('submit', async function (e) {
   e.preventDefault();
   const title = document.getElementById('eventTitleInput').value.trim();
   const description = document.getElementById('eventDescInput').value.trim();
   const date = document.getElementById('eventDateInput').value;
-  if (!title) {
-    alert('Event title is required');
+  const time = document.getElementById('eventTimeInput').value; // Get time input
+  if (!title || !date || !time) {
+    alert('All fields are required.');
     return;
   }
   try {
@@ -165,7 +171,7 @@ document.getElementById('eventForm').addEventListener('submit', async function (
       body: JSON.stringify({
         title: title,
         description: description,
-        date: date,
+        date: `${date}T${time}:00`, // Combine date & time
         adminEmail: localStorage.getItem('userEmail')
       })
     });

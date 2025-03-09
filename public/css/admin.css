@@ -14,8 +14,36 @@ body {
   
   /* admin-page背景(可同样使用bg1.jpg，或换一张admin专用图) */
   body.admin-page {
-    background: url("../images/bg1.jpg") no-repeat center center fixed;
+    background: url("../images/bg7.png") no-repeat center center fixed;
     background-size: cover;
+  }
+
+  #eventForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;  /* 控制表单宽度 */
+    margin: 20px auto; /* 居中 */
+    background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+  /* 调整输入框的宽度 */
+  #eventForm input, #eventForm textarea {
+    width: 100%;   /* 让输入框占满整个表单 */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  /* 放大 Event Description */
+  #eventDescInput {
+    height: 100px; /* ✅ 增加高度 */
+    resize: vertical; /* ✅ 允许用户拖动调整 */
   }
   
   /* 管理员特有的表格、列表等样式示例 */

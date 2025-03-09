@@ -13,7 +13,7 @@ body {
   
   /* user-page背景(bg1.jpg) */
   body.user-page {
-    background: url("../images/bg1.jpg") no-repeat center center fixed;
+    background: url("../images/bg7.png") no-repeat center center fixed;
     background-size: cover;
   }
   
@@ -27,7 +27,7 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin: 20px 0;
   }
-  
+
   /* 事件列表容器 */
   .event-container {
     display: flex;
