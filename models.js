@@ -6,7 +6,11 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: { type: String },
   event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  vegetarian: { type: Boolean, default: false },
+  dinner: { type: Boolean, default: false },
+  allergies: { type: String, default: "" },
+  avoidMeat: { type: String, default: "" }
 });
 
 // Define the schema for events

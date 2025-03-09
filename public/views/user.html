@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events</title>
+    <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/user.css">
+
+     <!-- 引入Dancing Script 字体 (需要可访问Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
 <body class="user-page">
     <div class="container">
-        <h1 class="main-title">DX is for better life!</h1>
+        <h1 class="handwriting-title">DX is for better life!</h1>
         
         <!-- Event List Section -->
         <div id="eventListContainer">
@@ -32,6 +37,30 @@
 
                 <label for="phone">Phone Number (optional)</label>
                 <input type="text" id="phone" placeholder="Phone Number (optional)">
+
+
+                <!-- 是否素食者 (Are you vegetarian?) -->
+                <label for="vegetarian">Are you a vegetarian?</label>
+                <!-- 用下拉选单，也可用 checkbox/radio -->
+                <select id="vegetarian">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                </select>
+
+                <!-- 是否吃晚饭 (Will you join for dinner?) -->
+                <label for="dinner">Will you join for dinner?</label>
+                <select id="dinner">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                </select>
+
+                <!-- 是否有食物过敏 (Any food allergies?) -->
+                <label for="allergies">Any food allergies?</label>
+                <input type="text" id="allergies" placeholder="e.g. peanuts, shellfish">
+
+                <!-- 不吃的肉 (Any meat you do not eat?) -->
+                <label for="avoidMeat">Any meat you do not eat?</label>
+                <input type="text" id="avoidMeat" placeholder="e.g. pork, beef, etc.">
 
                 <!-- 用于存储当前活动的ID -->
                 <input type="hidden" id="eventId" name="eventId" />

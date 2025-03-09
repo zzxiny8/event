@@ -68,10 +68,24 @@ async function loadSubmissions() {
         phoneTd.textContent = sub.phone || '';
         const eventTd = document.createElement('td');
         eventTd.textContent = sub.event ? sub.event.title : '';
+        const vegetarianTd = document.createElement("td");
+        vegetarianTd.textContent = sub.vegetarian ? "Yes" : "No";
+        const dinnerTd = document.createElement("td");
+        dinnerTd.textContent = sub.dinner ? "Yes" : "No";
+        const allergiesTd = document.createElement("td");
+        allergiesTd.textContent = sub.allergies || "";
+        const avoidMeatTd = document.createElement("td");
+        avoidMeatTd.textContent = sub.avoidMeat || "";
+
         tr.appendChild(nameTd);
         tr.appendChild(emailTd);
         tr.appendChild(phoneTd);
         tr.appendChild(eventTd);
+        tr.appendChild(vegetarianTd);
+        tr.appendChild(dinnerTd);
+        tr.appendChild(allergiesTd);
+        tr.appendChild(avoidMeatTd);
+        
         tbody.appendChild(tr);
       });
     }

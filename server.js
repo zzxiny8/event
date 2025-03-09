@@ -71,18 +71,43 @@ app.post('/api/events', async (req, res) => {
 // Submit user info for an event (user registration)
 app.post('/api/submit', async (req, res) => {
   try {
-    const { name, email, phone, eventId } = req.body;
+    const { 
+      name, 
+      email, 
+      phone, 
+      eventId,
+      vegetarian,  // <-- 新增字段
+      dinner,      // <-- 新增字段
+      allergies,   // <-- 新增字段
+      avoidMeat    // <-- 新增字段
+    } = req.body;
+
+    // 校验必填字段
     if (!name || !email || !eventId) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     if (!email.endsWith('@udtrucks.com')) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
+
+    // 验证 eventId
     const event = await Event.findById(eventId);
     if (!event) {
       return res.status(400).json({ error: 'Invalid event ID' });
     }
-    const newUser = new User({ name: name, email: email, phone: phone, event: event._id });
+
+    // 创建新User并保存
+    const newUser = new User({
+      name,
+      email,
+      phone,
+      event: event._id,
+      vegetarian: !!vegetarian, // 转成bool
+      dinner: !!dinner,
+      allergies: allergies || "",
+      avoidMeat: avoidMeat || ""
+    });
+
     await newUser.save();
     return res.status(201).json({ message: 'Submission successful' });
   } catch (err) {

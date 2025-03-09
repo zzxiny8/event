@@ -17,6 +17,17 @@ body {
     background-size: cover;
   }
   
+  /* 手写标题，示例：Dancing Script */
+  .handwriting-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 36px;
+    font-weight: 700;
+    font-style: italic;
+    color: #0F3C73;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 20px 0;
+  }
+  
   /* 事件列表容器 */
   .event-container {
     display: flex;
