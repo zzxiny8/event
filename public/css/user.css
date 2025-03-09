@@ -20,7 +20,7 @@ body.our-voice-page {
 
 /* Event 页面背景 */
 body.event-page {
-  background: url("../images/bg1.jpg") no-repeat center center fixed;
+  background: url("../images/bg7.png") no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -37,24 +37,25 @@ body.event-page {
   font-size: 18px;
   border: none;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: #DCDCD7;
   color: white;
   border-radius: 5px;
 }
 
 .navbar button.active {
-  background-color: #0056b3;
+  background-color: #DCDCD7;
 }
 
 /* 透明表格样式 */
 .info-table {
   width: 80%;
-  max-width: 600px;
+  max-width: 800px;
   border-collapse: collapse;
   background: transparent;
   border-radius: 8px;
   overflow: hidden;
   color: white;
+  margin: 20px auto; /* 居中 */
 }
 
 .info-table th, .info-table td {
@@ -64,7 +65,7 @@ body.event-page {
 }
 
 .info-table th {
-  background-color: rgba(0, 123, 255, 0.5);
+  background-color: #DCDCD7;
   color: white;
 }
 
