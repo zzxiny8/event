@@ -9,18 +9,18 @@
     box-sizing: border-box;
   }
   
-  /* --- 通用表单样式 ---
-   * 让 form 里 label / input / button 纵向排列，默认左对齐
-   */
-  form {
+  #eventForm {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* label左对齐 */
+    align-items: center;
     width: 100%;
-    max-width: 600px; /* 根据需要设置合适的宽度 */
-    margin: 0 auto;   /* 水平居中 (如果父容器支持宽度) */
-  }
-  
+    max-width: 400px;  /* 控制表单宽度 */
+    margin: 20px auto; /* 居中 */
+    background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
   /* 给 label / input / button 之间留一些垂直间距 */
   form label,
   form input,
