@@ -1,0 +1,93 @@
+/* user.css */
+
+/* 基本页面布局 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  /* user-page背景(bg1.jpg) */
+  body.user-page {
+    background: url("../images/bg1.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  /* 事件列表容器 */
+  .event-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+    width: 90%;
+    max-width: 600px;
+  }
+  
+  /* 点击式Event卡片 */
+  .event-card {
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* 偶数、奇数项交替颜色 */
+  .event-card:nth-child(odd) {
+    background-color: #ff6b6b;
+  }
+  .event-card:nth-child(even) {
+    background-color: #6b5bff;
+  }
+  
+  .event-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* 详情容器 */
+  #eventDetailsContainer {
+    display: none;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+  }
+  
+  /* 表单label(如用户填写信息时) */
+  form label {
+    width: 100%;
+    text-align: left;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  
+  /* 返回按钮等 */
+  .back-btn {
+    background: #ff4d4d;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  
+  .back-btn:hover {
+    background: #cc0000;
+  }
+  

@@ -1,0 +1,86 @@
+/* login.css */
+
+/* 基本样式：可只针对登录页面使用 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  /* 登录页专用背景(main.jpg)：
+     注意路径是否正确，需要根据css文件相对images目录来写 */
+  body.login-page {
+    background: url("../images/main.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  /* 手写标题，示例：Dancing Script */
+  .handwriting-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 36px;
+    font-weight: 700;
+    font-style: italic;
+    color: #0F3C73;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin: 20px 0;
+  }
+  
+  /* 一些标题、表单、输入框和按钮样式（仅登录时使用） */
+  .main-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #191235;
+  }
+  
+  /* 如果登录页面用到h2，可在此设置 */
+  h2 {
+    color: white;
+    font-size: 28px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* 表单布局 */
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  /* 输入框样式 */
+  input {
+    width: 95%;
+    padding: 12px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  /* 提交按钮 */
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  
+  button[type="submit"] {
+    background: #007bff;
+    color: white;
+  }
+  
+  button[type="submit"]:hover {
+    background: #0056b3;
+  }
+  

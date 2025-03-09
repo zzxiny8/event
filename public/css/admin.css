@@ -1,0 +1,53 @@
+/* admin.css */
+
+/* 基础样式 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    background-size: cover;
+  }
+  
+  /* admin-page背景(可同样使用bg1.jpg，或换一张admin专用图) */
+  body.admin-page {
+    background: url("../images/bg1.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  /* 管理员特有的表格、列表等样式示例 */
+  table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+  }
+  
+  th, td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  /* 可能还有删除按钮、新建事件表单等 */
+  button {
+    background: #007bff;
+    color: #fff;
+    padding: 10px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+  
