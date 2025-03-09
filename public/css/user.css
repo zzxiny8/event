@@ -9,6 +9,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  color: white;
 }
 
 /* Our Voice 页面背景 */
@@ -45,76 +46,40 @@ body.event-page {
   background-color: #0056b3;
 }
 
-/* user-page背景 */
-body.user-page {
-  background: url("../images/bg7.png") no-repeat center center fixed;
-  background-size: cover;
-}
-
-#eventForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* 手写标题，示例：Dancing Script */
-.handwriting-title {
-  font-family: 'Dancing Script', cursive;
-  font-size: 36px;
-  font-weight: 700;
-  font-style: italic;
-  color: #0F3C73;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin: 20px 0;
-}
-
-/* Our Voice 界面样式 */
-.content-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-}
-
-/* 表格样式 */
+/* 透明表格样式 */
 .info-table {
   width: 80%;
   max-width: 600px;
   border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.9);
+  background: transparent;
   border-radius: 8px;
   overflow: hidden;
+  color: white;
 }
 
 .info-table th, .info-table td {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid white;
   text-align: left;
 }
 
 .info-table th {
-  background-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.5);
   color: white;
 }
 
 .info-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* 事件列表和详情 */
 .event-container, #eventDetailsContainer {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
   width: 80%;
   max-width: 600px;
+  color: white;
 }
 
 /* 事件列表容器 */
@@ -142,11 +107,11 @@ body.user-page {
 
 /* 偶数、奇数项交替颜色 */
 .event-card:nth-child(odd) {
-  background-color: #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.8);
 }
 
 .event-card:nth-child(even) {
-  background-color: #6b5bff;
+  background-color: rgba(107, 91, 255, 0.8);
 }
 
 .event-card:hover {
@@ -157,7 +122,7 @@ body.user-page {
 /* 详情容器 */
 #eventDetailsContainer {
   display: none;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -173,6 +138,7 @@ form label {
   font-weight: bold;
   margin-top: 10px;
   font-size: 16px;
+  color: white;
 }
 
 /* 返回按钮等 */
