@@ -2,7 +2,6 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: url("../images/main.jpg") no-repeat center center fixed;
   background-size: cover;
   display: flex;
   flex-direction: column;
@@ -11,6 +10,34 @@ body {
   min-height: 100vh;
   text-align: center;
 }
+
+/* 登录页面专用背景：main.jpg */
+body.login-page {
+  background: url("../images/main.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* 其他页面通用背景：bg1.jpg 
+   想让所有非登录页都用 bg1，使用 body:not(.login-page) 来覆盖。 
+   其他页面 body 加 class="user-page" / "admin-page" 之类，再写选择器。 */
+body:not(.login-page) {
+  background: url("../images/bg1.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+
+/* 针对手写标题的样式 */
+.handwriting-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 36px;
+  font-weight: 700;  /* 如果是Dancing Script 700加粗 */
+  font-style: italic;
+  color: #0F3C73;    /* 你喜欢的颜色 */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 20px 0;
+  /* 也可以加 transform: rotate(-3deg); 做一点倾斜效果 */
+}
+
 
 /* Main title */
 .main-title {
