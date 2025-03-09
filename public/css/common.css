@@ -9,18 +9,46 @@
     box-sizing: border-box;
   }
   
-  #eventForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;  /* 控制表单宽度 */
-    margin: 20px auto; /* 居中 */
-    background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* 让整个表单居中 */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 让内容水平居中 */
+  justify-content: center; /* 让内容垂直居中 */
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center; /* 让文本居中 */
 }
+
+/* 让 label 和 input 居中排列 */
+form label {
+  width: 100%;
+  text-align: center;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* 让输入框居中 */
+form input,
+form select,
+form textarea {
+  width: 80%; /* 让输入框保持合适的宽度 */
+  max-width: 400px;
+  padding: 8px;
+  text-align: center; /* 让输入框中的文字居中 */
+  display: block;
+  margin: 5px auto;
+}
+
+/* 按钮居中 */
+form button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: center;
+}
+
   /* 给 label / input / button 之间留一些垂直间距 */
   form label,
   form input,

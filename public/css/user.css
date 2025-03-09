@@ -2,103 +2,192 @@
 
 /* 基本页面布局 */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  /* user-page背景(bg1.jpg) */
-  body.user-page {
-    background: url("../images/bg7.png") no-repeat center center fixed;
-    background-size: cover;
-  }
-  
-  /* 手写标题，示例：Dancing Script */
-  .handwriting-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 36px;
-    font-weight: 700;
-    font-style: italic;
-    color: #0F3C73;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin: 20px 0;
-  }
+  margin: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
 
-  /* 事件列表容器 */
-  .event-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
-    width: 90%;
-    max-width: 600px;
-  }
-  
-  /* 点击式Event卡片 */
-  .event-card {
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* 偶数、奇数项交替颜色 */
-  .event-card:nth-child(odd) {
-    background-color: #ff6b6b;
-  }
-  .event-card:nth-child(even) {
-    background-color: #6b5bff;
-  }
-  
-  .event-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* 详情容器 */
-  #eventDetailsContainer {
-    display: none;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 600px;
-  }
-  
-  /* 表单label(如用户填写信息时) */
-  form label {
-    width: 100%;
-    text-align: left;
-    font-weight: bold;
-    margin-top: 10px;
-    font-size: 16px;
-  }
-  
-  /* 返回按钮等 */
-  .back-btn {
-    background: #ff4d4d;
-    color: white;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 15px;
-  }
-  
-  .back-btn:hover {
-    background: #cc0000;
-  }
-  
+/* Our Voice 页面背景 */
+body.our-voice-page {
+  background: url("../images/bg8.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Event 页面背景 */
+body.event-page {
+  background: url("../images/bg1.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* 导航栏 */
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.navbar button {
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+}
+
+.navbar button.active {
+  background-color: #0056b3;
+}
+
+/* user-page背景 */
+body.user-page {
+  background: url("../images/bg7.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+#eventForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 手写标题，示例：Dancing Script */
+.handwriting-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 36px;
+  font-weight: 700;
+  font-style: italic;
+  color: #0F3C73;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 20px 0;
+}
+
+/* Our Voice 界面样式 */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+
+/* 表格样式 */
+.info-table {
+  width: 80%;
+  max-width: 600px;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.info-table th, .info-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.info-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.info-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* 事件列表和详情 */
+.event-container, #eventDetailsContainer {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+}
+
+/* 事件列表容器 */
+.event-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  width: 90%;
+  max-width: 600px;
+}
+
+/* 点击式Event卡片 */
+.event-card {
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 偶数、奇数项交替颜色 */
+.event-card:nth-child(odd) {
+  background-color: #ff6b6b;
+}
+
+.event-card:nth-child(even) {
+  background-color: #6b5bff;
+}
+
+.event-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* 详情容器 */
+#eventDetailsContainer {
+  display: none;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+/* 表单label(如用户填写信息时) */
+form label {
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+/* 返回按钮等 */
+.back-btn {
+  background: #ff4d4d;
+  color: white;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.back-btn:hover {
+  background: #cc0000;
+}
