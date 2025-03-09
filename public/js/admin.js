@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const userEmail = localStorage.getItem('userEmail');
   const userRole = localStorage.getItem('userRole');
   if (!userEmail || userRole !== 'admin') {
@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.location.href = 'login.html';
     return;
   }
+
   // Load events and submissions data when page is ready
   loadEvents();
   loadSubmissions();
@@ -19,35 +20,72 @@ async function loadEvents() {
     if (res.ok) {
       const eventsList = document.getElementById('eventsList');
       eventsList.innerHTML = '';
+
       events.forEach(evt => {
         const li = document.createElement('li');
-        // Show event title and date (if available)
         li.textContent = evt.title;
         if (evt.date) {
           const d = new Date(evt.date);
           li.textContent += ' (' + d.toLocaleDateString() + ')';
         }
-        // Create a delete button for each event
+
+        // Delete button
         const delBtn = document.createElement('button');
         delBtn.textContent = 'Delete';
         delBtn.addEventListener('click', async () => {
           if (confirm(`Delete event "${evt.title}"?`)) {
-            // Send DELETE request to remove event
             await fetch(`/api/events/${evt._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
               method: 'DELETE'
             });
-            // Reload events and submissions lists after deletion
             loadEvents();
             loadSubmissions();
           }
         });
+
+        // Edit button
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', () => editEvent(evt));
+
         li.appendChild(delBtn);
+        li.appendChild(editBtn);
         eventsList.appendChild(li);
       });
     }
   } catch (err) {
     console.error('Error loading events:', err);
   }
+}
+
+// Function to edit an event
+function editEvent(eventObj) {
+  const newTitle = prompt("Enter new title:", eventObj.title);
+  if (newTitle === null) return;
+
+  const newDesc = prompt("Enter new description:", eventObj.description || "");
+  if (newDesc === null) return;
+
+  const newDate = prompt("Enter new date (YYYY-MM-DD):", eventObj.date ? eventObj.date.slice(0, 10) : "");
+  if (newDate === null) return;
+
+  fetch(`/api/events/${eventObj._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
+    method: 'PUT',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: newTitle, description: newDesc, date: newDate })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert("Update event failed: " + data.error);
+      } else {
+        alert("Event updated!");
+        loadEvents();
+      }
+    })
+    .catch(err => {
+      console.error('Error updating event:', err);
+      alert("Error updating event");
+    });
 }
 
 // Fetch and display all user submissions in the table
@@ -58,6 +96,7 @@ async function loadSubmissions() {
     if (res.ok) {
       const tbody = document.getElementById('submissionsBody');
       tbody.innerHTML = '';
+
       submissions.forEach(sub => {
         const tr = document.createElement('tr');
         const nameTd = document.createElement('td');
@@ -77,6 +116,20 @@ async function loadSubmissions() {
         const avoidMeatTd = document.createElement("td");
         avoidMeatTd.textContent = sub.avoidMeat || "";
 
+        // Delete User Submission button
+        const deleteTd = document.createElement('td');
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete User';
+        delBtn.addEventListener('click', async () => {
+          if (confirm(`Delete user "${sub.name}"?`)) {
+            await fetch(`/api/submissions/${sub._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
+              method: 'DELETE'
+            });
+            loadSubmissions();
+          }
+        });
+        deleteTd.appendChild(delBtn);
+
         tr.appendChild(nameTd);
         tr.appendChild(emailTd);
         tr.appendChild(phoneTd);
@@ -85,7 +138,8 @@ async function loadSubmissions() {
         tr.appendChild(dinnerTd);
         tr.appendChild(allergiesTd);
         tr.appendChild(avoidMeatTd);
-        
+        tr.appendChild(deleteTd);
+
         tbody.appendChild(tr);
       });
     }
@@ -95,11 +149,11 @@ async function loadSubmissions() {
 }
 
 // Handle new event creation form submission
-document.getElementById('eventForm').addEventListener('submit', async function(e) {
+document.getElementById('eventForm').addEventListener('submit', async function (e) {
   e.preventDefault();
   const title = document.getElementById('eventTitleInput').value.trim();
   const description = document.getElementById('eventDescInput').value.trim();
-  const date = document.getElementById('eventDateInput').value;  // date string (YYYY-MM-DD from input[type=date])
+  const date = document.getElementById('eventDateInput').value;
   if (!title) {
     alert('Event title is required');
     return;
@@ -108,16 +162,15 @@ document.getElementById('eventForm').addEventListener('submit', async function(e
     const res = await fetch('/api/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        title: title, 
-        description: description, 
-        date: date, 
-        adminEmail: localStorage.getItem('userEmail') 
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        date: date,
+        adminEmail: localStorage.getItem('userEmail')
       })
     });
     const data = await res.json();
     if (res.ok) {
-      // Clear the form and reload events list on success
       document.getElementById('eventForm').reset();
       loadEvents();
     } else {
@@ -134,4 +187,4 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(err => {
     console.log('Service Worker registration failed:', err);
   });
-}
+};

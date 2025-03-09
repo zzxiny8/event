@@ -32,14 +32,13 @@ app.post('/api/login', (req, res) => {
   if (email.toLowerCase() === ADMIN_EMAIL) {
     role = 'admin';
   }
-  // In a real app, you'd handle password verification and sessions/JWT here.
-  return res.json({ message: 'Login successful', email: email, role: role });
+  return res.json({ message: 'Login successful', email, role });
 });
 
 // Get all events (available to any logged-in user or admin)
 app.get('/api/events', async (req, res) => {
   try {
-    const events = await Event.find().sort({ createdAt: -1 });  // latest created events first
+    const events = await Event.find().sort({ createdAt: -1 });
     res.json(events);
   } catch (err) {
     console.error('Error fetching events:', err);
@@ -51,38 +50,55 @@ app.get('/api/events', async (req, res) => {
 app.post('/api/events', async (req, res) => {
   try {
     const { title, description, date, adminEmail } = req.body;
-    // Basic admin authentication check
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
       return res.status(403).json({ error: 'Forbidden' });
     }
     const event = new Event({
-      title: title,
-      description: description,
+      title,
+      description,
       date: date ? new Date(date) : undefined
     });
     await event.save();
-    return res.status(201).json({ message: 'Event created', event: event });
+    return res.status(201).json({ message: 'Event created', event });
   } catch (err) {
     console.error('Error creating event:', err);
     res.status(500).json({ error: 'Internal error creating event' });
   }
 });
 
-// Submit user info for an event (user registration)
+// ** Update an existing event (Admin only) **
+app.put('/api/events/:id', async (req, res) => {
+  try {
+    const adminEmail = req.query.adminEmail;
+    if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    const eventId = req.params.id;
+    const { title, description, date } = req.body;
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    if (title) event.title = title;
+    if (description) event.description = description;
+    if (date) event.date = new Date(date);
+
+    await event.save();
+    res.json({ message: 'Event updated', event });
+  } catch (err) {
+    console.error('Error updating event:', err);
+    res.status(500).json({ error: 'Internal error updating event' });
+  }
+});
+
+// ** Submit user info for an event (User Registration) **
 app.post('/api/submit', async (req, res) => {
   try {
-    const { 
-      name, 
-      email, 
-      phone, 
-      eventId,
-      vegetarian,  // <-- 新增字段
-      dinner,      // <-- 新增字段
-      allergies,   // <-- 新增字段
-      avoidMeat    // <-- 新增字段
-    } = req.body;
+    const { name, email, phone, eventId, vegetarian, dinner, allergies, avoidMeat } = req.body;
 
-    // 校验必填字段
     if (!name || !email || !eventId) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -90,19 +106,17 @@ app.post('/api/submit', async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // 验证 eventId
     const event = await Event.findById(eventId);
     if (!event) {
       return res.status(400).json({ error: 'Invalid event ID' });
     }
 
-    // 创建新User并保存
     const newUser = new User({
       name,
       email,
       phone,
       event: event._id,
-      vegetarian: !!vegetarian, // 转成bool
+      vegetarian: !!vegetarian,
       dinner: !!dinner,
       allergies: allergies || "",
       avoidMeat: avoidMeat || ""
@@ -131,6 +145,23 @@ app.get('/api/submissions', async (req, res) => {
   }
 });
 
+// ** Delete a specific user submission (Admin only) **
+app.delete('/api/submissions/:userId', async (req, res) => {
+  try {
+    const adminEmail = req.query.adminEmail;
+    if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    const userId = req.params.userId;
+    await User.findByIdAndDelete(userId);
+    res.json({ message: 'User submission deleted' });
+  } catch (err) {
+    console.error('Error deleting user submission:', err);
+    res.status(500).json({ error: 'Internal error deleting user submission' });
+  }
+});
+
 // Delete an event (admin only)
 app.delete('/api/events/:id', async (req, res) => {
   try {
@@ -140,7 +171,7 @@ app.delete('/api/events/:id', async (req, res) => {
     }
     const eventId = req.params.id;
     await Event.findByIdAndDelete(eventId);
-    await User.deleteMany({ event: eventId });  // remove associated user submissions for this event
+    await User.deleteMany({ event: eventId });
     res.json({ message: 'Event deleted' });
   } catch (err) {
     console.error('Error deleting event:', err);
