@@ -1,8 +1,20 @@
 /* user.css */
 
 /* 基本页面布局 */
-body {
-  padding-top: 200px;
+body.event-page .main-content{
+  padding-top: 300px;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  color: white;
+}
+
+body.our-voice-page .main-content{
+  padding-top: 100px;
   margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
@@ -162,7 +174,15 @@ form select {
   margin: 15px auto;
   text-align: left;
 }
+form label{
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 16px;
+  color: white;
 
+}
 form input,
 form select {
   padding: 16px;
