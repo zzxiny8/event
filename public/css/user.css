@@ -14,12 +14,14 @@ body {
 
 /* Our Voice 页面背景 */
 body.our-voice-page {
+  margin-top: 30px;
   background: url("../images/bg8.jpg") no-repeat center center fixed;
   background-size: cover;
 }
 
 /* Event 页面背景 */
 body.event-page {
+  margin-top: 30px;
   background: url("../images/bg9.png") no-repeat center center fixed;
   background-size: cover;
 }
@@ -79,7 +81,6 @@ body.event-page {
   padding: 20px;
   border-radius: 10px;
   width: 80%;
-  max-width: 600px;
   color: white;
 }
 
@@ -90,7 +91,7 @@ body.event-page {
   gap: 15px;
   margin-top: 20px;
   width: 90%;
-  max-width: 600px;
+  
 }
 
 /* 点击式Event卡片 */
@@ -129,7 +130,7 @@ body.event-page {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 90%;
-  max-width: 600px;
+
 }
 
 /* 表单label(如用户填写信息时) */
