@@ -95,11 +95,10 @@ body.event-page {
   max-width: 600px;
 
   /* 让它居中 */
-  position: relative; /* 改为相对定位，避免脱离文档流 */
-  top: auto;
-  left: auto;
-  transform: none;
-  margin-top: 80px; /* 让它往下移动，避免遮挡顶部 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* 点击式Event卡片 */
@@ -140,11 +139,11 @@ body.event-page {
   width: 90%;
   max-width: 600px;
 
-  position: relative; /* 改为相对定位，避免脱离文档流 */
-  top: auto;
-  left: auto;
-  transform: none;
-  margin-top: 80px; /* 让它往下移动，避免遮挡顶部 */
+  /* 让它居中 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* 表单label(如用户填写信息时) */
