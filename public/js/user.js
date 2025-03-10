@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               eventCard.style.backgroundColor = getRandomColor();
               eventCard.innerHTML = `
                   <h2 class="event-title">${event.title}</h2>
-                  <p class="event-date">📅 ${event.date ? new Date(event.date).toLocaleDateString() : "No date available"}</p>
+                   <p class="event-date">📅 ${event.date ? event.date : "No date available"}</p>
                   <p class="event-time">⏰ ${event.time ? event.time : "No time available"}</p>
               `;
               eventCard.addEventListener("click", () => showEventDetails(event));
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   function showEventDetails(event) {
       document.getElementById("eventTitle").textContent = event.title;
       document.getElementById("eventDescription").textContent = event.description || "No description available";
-      document.getElementById("eventDate").textContent = event.date ? `📅 Date: ${new Date(event.date).toLocaleDateString()}` : "📅 Date: Not provided";
+      document.getElementById("eventDate").textContent = event.date ? `📅 Date: ${event.date}` : "📅 Date: Not provided";
       document.getElementById("eventTime").textContent = event.time ? `⏰ Time: ${event.time}` : "⏰ Time: Not provided";
       document.getElementById("eventId").value = event._id;
       eventListContainer.style.display = "none";

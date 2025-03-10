@@ -39,6 +39,15 @@ app.post('/api/login', (req, res) => {
 app.get('/api/events', async (req, res) => {
   try {
     const events = await Event.find({}, "title description date time").sort({ createdAt: -1 });
+
+    const formattedEvents = events.map(event => ({
+      _id: event._id,
+      title: event.title,
+      description: event.description || "No description available",
+      date: event.date ? event.date.toISOString().split("T")[0] : "No date available",
+      time: event.time ? event.time : "No time available"
+    }));
+    
     res.json(events);
   } catch (err) {
     console.error('Error fetching events:', err);
