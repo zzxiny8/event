@@ -20,7 +20,7 @@ body.our-voice-page {
 
 /* Event 页面背景 */
 body.event-page {
-  background: url("../images/bg1.jpg") no-repeat center center fixed;
+  background: url("../images/bg9.png") no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -46,6 +46,17 @@ body.event-page {
   background-color: #0056b3;
 }
 
+ /* 手写标题，示例：Dancing Script */
+ .handwriting-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 36px;
+  font-weight: 700;
+  font-style: italic;
+  color: #0F3C73;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin: 20px 0;
+}
+
 /* 透明表格样式，使其居中 */
 .info-table {
   width: 80%;
@@ -65,7 +76,7 @@ body.event-page {
 }
 
 .info-table th {
-  background-color: rgba(0, 123, 255, 0.5);
+  background-color: #4C4948;
   color: white;
   text-align: center;
 }
