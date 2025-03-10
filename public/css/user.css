@@ -16,14 +16,14 @@ body{
 body.our-voice-page {
   background: url("../images/bg8.jpg") no-repeat center center fixed;
   background-size: cover;
-  padding-top: 160px;
+  padding-top: 130px;
 }
 
 /* Event 页面背景 */
 body.event-page {
   background: url("../images/bg9.png") no-repeat center center fixed;
   background-size: cover;
-  padding-top: 300px;
+  padding-top: 130px;
 }
 
 /* 导航栏 */
@@ -83,7 +83,7 @@ body.event-page {
 
 /* 事件列表和详情 */
 .event-container, #eventDetailsContainer {
-  margin-top: 200px;
+  margin-top: 130px;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
@@ -134,7 +134,7 @@ body.event-page {
 
 /* 详情容器 */
 #eventDetailsContainer {
-  margin: 350px auto 0;      /* 水平居中 */
+  margin: 50px auto 0;      /* 水平居中 */
   max-width: 1000px;    /* 根据需要设一个宽度，保证 auto 有作用 */
   display: none;
   background: rgba(255, 255, 255, 0.1);
