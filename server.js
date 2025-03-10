@@ -49,14 +49,15 @@ app.get('/api/events', async (req, res) => {
 // Create a new event (admin only)
 app.post('/api/events', async (req, res) => {
   try {
-    const { title, description, date, adminEmail } = req.body;
+    const { title, description, date, time, adminEmail } = req.body;
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
       return res.status(403).json({ error: 'Forbidden' });
     }
     const event = new Event({
       title,
       description,
-      date: date ? new Date(date) : undefined
+      date: date ? new Date(date) : undefined,
+      time
     });
     await event.save();
     return res.status(201).json({ message: 'Event created', event });
@@ -75,7 +76,7 @@ app.put('/api/events/:id', async (req, res) => {
     }
 
     const eventId = req.params.id;
-    const { title, description, date } = req.body;
+    const { title, description, date, time } = req.body;
 
     const event = await Event.findById(eventId);
     if (!event) {
@@ -85,6 +86,7 @@ app.put('/api/events/:id', async (req, res) => {
     if (title) event.title = title;
     if (description) event.description = description;
     if (date) event.date = new Date(date);
+    if (time) event.time = time;
 
     await event.save();
     res.json({ message: 'Event updated', event });
