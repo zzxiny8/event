@@ -2,7 +2,7 @@
 
 /* 基本页面布局 */
 body {
-  padding-top: 130px;
+  padding-top: 200px;
   margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
@@ -82,7 +82,7 @@ body.event-page {
 
 /* 事件列表和详情 */
 .event-container, #eventDetailsContainer {
-  margin-top: 120px;
+  margin-top: 200px;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
@@ -165,7 +165,7 @@ form select {
 
 form input,
 form select {
-  padding: 18px;
+  padding: 16px;
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
