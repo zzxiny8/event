@@ -103,10 +103,15 @@ body.event-page {
   margin-top: 20px;
   width: 90%;
   max-width: 600px;
-  position: relative;
-  top: auto;
-  margin-top: 100px;
-}
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  }
+
+  #eventDetailsContainer {
+    margin-top: 250px; /* 让容器向下移动 50px，数值可调整 */
+  }
 
 /* 点击式Event卡片 */
 .event-card {
