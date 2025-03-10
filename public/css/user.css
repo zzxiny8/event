@@ -2,6 +2,7 @@
 
 /* 基本页面布局 */
 body {
+  padding-top: 80px;
   margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
@@ -32,6 +33,7 @@ body.event-page {
   width: 100%;
   padding: 10px 0;
   z-index: 1000; /* 确保它在最前 */
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .navbar button {
@@ -77,6 +79,7 @@ body.event-page {
 
 /* 事件列表和详情 */
 .event-container, #eventDetailsContainer {
+  margin-top: 100px;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
