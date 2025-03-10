@@ -1,8 +1,7 @@
 /* user.css */
 
 /* 基本页面布局 */
-body.event-page .main-content{
-  padding-top: 300px;
+body{
   margin: 0;
   font-family: Arial, sans-serif;
   text-align: center;
@@ -13,16 +12,18 @@ body.event-page .main-content{
   color: white;
 }
 
-body.our-voice-page .main-content{
-  padding-top: 100px;
-  margin: 0;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  color: white;
+/* Our Voice page’s custom top offset */
+body.our-voice-page {
+  padding-top: 200px; /* pick whatever suits */
+  background: url("../images/bg8.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Event page’s custom top offset */
+body.event-page {
+  padding-top: 500px; /* pick whatever suits */
+  background: url("../images/bg9.png") no-repeat center center fixed;
+  background-size: cover;
 }
 
 /* Our Voice 页面背景 */
@@ -84,7 +85,7 @@ body.event-page {
 }
 
 .info-table th {
-  background-color: #DCDCD7;
+  background-color: #4C4948;
   color: white;
 }
 
@@ -111,12 +112,9 @@ body.event-page {
   margin-top: 45px;
   width: 90%;
   max-width: 600px;
+  margin: 200px auto 0;      /* 水平居中 */
+  max-width: 600px;    /* 根据需要设一个宽度，保证 auto 有作用 */
 
-  /* 让它居中 */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 /* 点击式Event卡片 */
@@ -148,6 +146,8 @@ body.event-page {
 
 /* 详情容器 */
 #eventDetailsContainer {
+  margin: 500px auto 0;      /* 水平居中 */
+  max-width: 600px;    /* 根据需要设一个宽度，保证 auto 有作用 */
   display: none;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
@@ -155,13 +155,8 @@ body.event-page {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 90%;
-  max-width: 600px;
 
-  /* 让它居中 */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
 }
 
 /* 表单样式 */
