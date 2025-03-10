@@ -44,11 +44,11 @@ app.get('/api/events', async (req, res) => {
       _id: event._id,
       title: event.title,
       description: event.description || "No description available",
-      date: event.date ? event.date.toISOString().split("T")[0] : "No date available",
-      time: event.time ? event.time : "No time available"
+      date: event.date ? new Date(event.date).toISOString().split("T")[0] : "No date available",
+      time: event.time && event.time.trim() !== "" ? event.time : "No time available"
     }));
-    
-    res.json(events);
+
+    res.json(formattedEvents);
   } catch (err) {
     console.error('Error fetching events:', err);
     res.status(500).json({ error: 'Internal error fetching events' });
