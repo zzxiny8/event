@@ -38,7 +38,7 @@ app.post('/api/login', (req, res) => {
 // Get all events (available to any logged-in user or admin)
 app.get('/api/events', async (req, res) => {
   try {
-    const events = await Event.find().sort({ createdAt: -1 });
+    const events = await Event.find({}, "title description date time").sort({ createdAt: -1 });
     res.json(events);
   } catch (err) {
     console.error('Error fetching events:', err);
