@@ -30,6 +30,7 @@ body.event-page {
   justify-content: center;
   gap: 20px;
   margin-top: 20px;
+  margin-bottom: 35px;
 }
 
 .navbar button {
@@ -91,6 +92,12 @@ body.event-page {
   margin-top: 20px;
   width: 90%;
   max-width: 600px;
+
+  /* 让它居中 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* 点击式Event卡片 */
@@ -130,6 +137,12 @@ body.event-page {
   text-align: center;
   width: 90%;
   max-width: 600px;
+
+  /* 让它居中 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* 表单label(如用户填写信息时) */
