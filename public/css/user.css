@@ -12,20 +12,6 @@ body{
   color: white;
 }
 
-/* Our Voice page’s custom top offset */
-body.our-voice-page {
-  padding-top: 200px; /* pick whatever suits */
-  background: url("../images/bg8.jpg") no-repeat center center fixed;
-  background-size: cover;
-}
-
-/* Event page’s custom top offset */
-body.event-page {
-  padding-top: 500px; /* pick whatever suits */
-  background: url("../images/bg9.png") no-repeat center center fixed;
-  background-size: cover;
-}
-
 /* Our Voice 页面背景 */
 body.our-voice-page {
   background: url("../images/bg8.jpg") no-repeat center center fixed;
@@ -100,7 +86,7 @@ body.event-page {
   padding: 20px;
   border-radius: 10px;
   width: 80%;
-  max-width: 600px;
+  max-width: 1000px;
   color: white;
 }
 
@@ -147,7 +133,7 @@ body.event-page {
 /* 详情容器 */
 #eventDetailsContainer {
   margin: 500px auto 0;      /* 水平居中 */
-  max-width: 600px;    /* 根据需要设一个宽度，保证 auto 有作用 */
+  max-width: 1000px;    /* 根据需要设一个宽度，保证 auto 有作用 */
   display: none;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
