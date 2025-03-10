@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       if (res.ok && events.length > 0) {
           eventList.innerHTML = "";
+          events.reverse(); 
           events.forEach(event => {
               const eventCard = document.createElement("div");
               eventCard.classList.add("event-card");
@@ -63,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               eventCard.innerHTML = `
                   <h2 class="event-title">${event.title}</h2>
                   <p class="event-date">📅 ${event.date ? new Date(event.date).toLocaleDateString() : "No date available"}</p>
-                   <p class="event-time">⏰ ${event.time ? event.time : "No time available"}</p>
+                  <p class="event-time">⏰ ${event.time ? event.time : "No time available"}</p>
               `;
               eventCard.addEventListener("click", () => showEventDetails(event));
               eventList.appendChild(eventCard);
