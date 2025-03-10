@@ -16,7 +16,7 @@ body{
 body.our-voice-page {
   background: url("../images/bg8.jpg") no-repeat center center fixed;
   background-size: cover;
-  padding-top: 130px;
+  padding-top: 50px;
 }
 
 /* Event 页面背景 */
@@ -36,7 +36,8 @@ body.event-page {
   z-index: 1000; /* 确保它在最前 */
   background: rgba(0, 0, 0, 0.6);
   display: flex;
-  justify-content: space-around; /* 让 Our Voice 和 Event 分开些 */
+  justify-content: center; /* 让 Our Voice 和 Event 分开些 */
+  gap: 30px;
   align-items: center;
 }
 
@@ -83,7 +84,7 @@ body.event-page {
 
 /* 事件列表和详情 */
 .event-container, #eventDetailsContainer {
-  margin-top: 130px;
+  margin-top: 50px;
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   border-radius: 10px;
@@ -101,7 +102,7 @@ body.event-page {
   width: 90%;
   max-width: 600px;
   margin: 200px auto 0;      /* 水平居中 */
-  max-width: 600px;    /* 根据需要设一个宽度，保证 auto 有作用 */
+  max-width: 1000px;    /* 根据需要设一个宽度，保证 auto 有作用 */
 
 }
 
@@ -153,7 +154,7 @@ form input,
 form select {
   display: block;
   width: 90%;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 15px auto;
   text-align: left;
 }
@@ -179,7 +180,7 @@ form select {
 .back-btn {
   position: absolute;
   top: 80px; /* 距离顶部的距离 */
-  left: 15px; /* 距离左侧的距离 */
+  left: 40px; /* 距离左侧的距离 */
   background: #F08C00;
   color: white;
   padding: 10px 20px;
