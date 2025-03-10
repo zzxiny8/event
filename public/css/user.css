@@ -23,7 +23,7 @@ body.our-voice-page {
 body.event-page {
   background: url("../images/bg9.png") no-repeat center center fixed;
   background-size: cover;
-  padding-top: 130px;
+  padding-top: 30px;
 }
 
 /* 导航栏 */
@@ -134,7 +134,7 @@ body.event-page {
 
 /* 详情容器 */
 #eventDetailsContainer {
-  margin: 50px auto 0;      /* 水平居中 */
+  margin: 30px auto 0;      /* 水平居中 */
   max-width: 1000px;    /* 根据需要设一个宽度，保证 auto 有作用 */
   display: none;
   background: rgba(255, 255, 255, 0.1);
