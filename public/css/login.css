@@ -56,7 +56,7 @@ body {
   /* 输入框样式 */
   input {
     width: 95%;
-    padding: 12px;
+    padding: 16px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
