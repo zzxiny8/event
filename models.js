@@ -20,7 +20,7 @@ const eventSchema = new mongoose.Schema({
   date: { type: Date },
   time: {type: String},
   createdAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
 // Create Mongoose models
 const User = mongoose.model('User', userSchema);

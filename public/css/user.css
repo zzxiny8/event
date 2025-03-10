@@ -100,13 +100,10 @@ body.event-page {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 20px;
+  margin: 20px auto;
   width: 90%;
   max-width: 600px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   }
 
   #eventDetailsContainer {
