@@ -103,10 +103,9 @@ body.event-page {
   margin-top: 20px;
   width: 90%;
   max-width: 600px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  top: auto;
+  margin-top: 100px;
 }
 
 /* 点击式Event卡片 */
