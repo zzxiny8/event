@@ -103,6 +103,10 @@ body.event-page {
   margin-top: 20px;
   width: 90%;
   max-width: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* 点击式Event卡片 */
@@ -142,6 +146,10 @@ body.event-page {
   text-align: center;
   width: 90%;
   max-width: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* 表单label(如用户填写信息时) */
@@ -154,9 +162,20 @@ form label {
   color: white;
 }
 
+input, select {
+  font-size: 18px; /* 增大输入框文字 */
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 /* 返回按钮等 */
 .back-btn {
-  background: #ff4d4d;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #F08C00;
   color: white;
   width: 100%;
   padding: 12px;
@@ -168,5 +187,5 @@ form label {
 }
 
 .back-btn:hover {
-  background: #cc0000;
+  background: #EB6400;
 }
