@@ -214,7 +214,7 @@ document.getElementById('eventForm').addEventListener('submit', async function (
   }
 
    // 合并 `date` 和 `time` 形成 `datetime`
-   const datetime = `${date}T${time}:00Z`;
+   const datetime = `${date}T${time}:00`;
 
   try {
     const res = await fetch('/api/events', {
