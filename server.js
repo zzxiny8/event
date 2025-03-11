@@ -39,15 +39,6 @@ app.post('/api/login', (req, res) => {
 app.get('/api/events', async (req, res) => {
   try {
     const events = await Event.find({}, "title description date time").sort({ createdAt: -1 });
-
-    const formattedEvents = events.map(event => ({
-      _id: event._id,
-      title: event.title,
-      description: event.description || "No description available",
-      date: event.date ? new Date(event.date).toISOString().split("T")[0] : "No date available",
-      time: event.time && event.time.trim() !== "" ? event.time : "No time available"
-    }));
-
     res.json(formattedEvents);
   } catch (err) {
     console.error('Error fetching events:', err);
@@ -58,7 +49,7 @@ app.get('/api/events', async (req, res) => {
 // Create a new event (admin only)
 app.post('/api/events', async (req, res) => {
   try {
-    const { title, description, date, time, adminEmail } = req.body;
+    const { title, description, date, adminEmail } = req.body;
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
       return res.status(403).json({ error: 'Forbidden' });
     }
@@ -66,7 +57,6 @@ app.post('/api/events', async (req, res) => {
       title,
       description,
       date: date ? new Date(date) : undefined,
-      time
     });
     await event.save();
     return res.status(201).json({ message: 'Event created', event });
@@ -85,7 +75,7 @@ app.put('/api/events/:id', async (req, res) => {
     }
 
     const eventId = req.params.id;
-    const { title, description, date, time } = req.body;
+    const { title, description, date } = req.body;
 
     const event = await Event.findById(eventId);
     if (!event) {
@@ -95,7 +85,6 @@ app.put('/api/events/:id', async (req, res) => {
     if (title) event.title = title;
     if (description) event.description = description;
     if (date) event.date = new Date(date);
-    if (time) event.time = time;
 
     await event.save();
     res.json({ message: 'Event updated', event });
