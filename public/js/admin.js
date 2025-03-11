@@ -25,10 +25,8 @@ async function loadEvents() {
         
         if (evt.datetime) {
         
-          const eventDateObj = new Date(evt.datetime);
-          const formattedDate = eventDateObj.toLocaleDateString('en-SG', { timeZone: 'Asia/Singapore' });
-          const formattedTime = eventDateObj.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Singapore' });
-          li.textContent += ` (${formattedDate} ${formattedTime})`;
+          const d = new Date(evt.datetime);
+          li.textContent += ` (${d.toLocaleDateString(undefined, { timeZone: 'Asia/Singapore' })} ${d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Singapore' })})`;
 
 
         }
