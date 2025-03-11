@@ -62,10 +62,18 @@ app.post('/api/events', async (req, res) => {
       return res.status(403).json({ error: 'Forbidden' });
     }
 
+    // 假设前端发送的 datetime 格式为 "YYYY-MM-DDTHH:mm"
+    // 生成本地时间 Date 对象
+    const localDate = new Date(datetime);
+    // 获取本地时区相对于 UTC 的偏移（单位：分钟），乘以60000换成毫秒
+    const offsetMs = localDate.getTimezoneOffset() * 60000;
+    // 补偿时区偏移，得到与用户选择一致的时间
+    const correctedDate = new Date(localDate.getTime() + offsetMs);
+
     const event = new Event({
       title,
       description,
-      datetime
+      datetime: correctedDate
     });
 
     await event.save();
@@ -95,12 +103,15 @@ app.put('/api/events/:id', async (req, res) => {
     if (title) event.title = title;
     if (description) event.description = description;
     if (date && time) {
-      const formattedDateTime = new Date(`${date}T${time}:00`); 
-
-      if (isNaN(formattedDateTime.getTime())) {
+      // 组合日期与时间字符串（格式："YYYY-MM-DDTHH:mm:00"）
+      const datetimeStr = `${date}T${time}:00`;
+      const localDate = new Date(datetimeStr);
+      const offsetMs = localDate.getTimezoneOffset() * 60000;
+      const correctedDate = new Date(localDate.getTime() + offsetMs);
+      if (isNaN(correctedDate.getTime())) {
         return res.status(400).json({ error: "Invalid date or time format" });
       }
-      event.datetime = formattedDateTime;
+      event.datetime = correctedDate;
     }
 
     await event.save();
