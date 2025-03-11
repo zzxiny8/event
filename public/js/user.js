@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (event.datetime) {
         const eventDateObj = new Date(event.datetime);
         const formattedDate = eventDateObj.toLocaleDateString();  // 只提取日期
-        const formattedTime = eventDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // 只提取时间
+        const formattedTime = eventDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }); // 只提取时间
 
         document.getElementById("eventDate").textContent = `📅 Date: ${formattedDate}`;
         document.getElementById("eventTime").textContent = `⏰ Time: ${formattedTime}`;
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("eventDate").textContent = "📅 Date: Not provided";
         document.getElementById("eventTime").textContent = "⏰ Time: Not provided";
     }
-    
+
       document.getElementById("eventId").value = event._id;
       eventListContainer.style.display = "none";
       eventDetailsContainer.style.display = "block";
