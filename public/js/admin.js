@@ -25,8 +25,11 @@ async function loadEvents() {
         
         if (evt.datetime) {
         
-          const d = new Date(evt.datetime);
-          li.textContent += ` (${d.toLocaleDateString(undefined, { timeZone: 'Asia/Singapore' })} ${d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Singapore' })})`;
+          const eventDateObj = new Date(evt.datetime);
+          const formattedDate = eventDateObj.toLocaleDateString('en-SG', { timeZone: 'Asia/Singapore' });
+          const formattedTime = eventDateObj.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Singapore' });
+          li.textContent += ` (${formattedDate} ${formattedTime})`;
+
 
         }
 
@@ -59,7 +62,6 @@ async function loadEvents() {
 }
 
 // Function to edit an event (now includes time)
-// Function to edit an event (now includes time)
 function editEvent(eventObj) {
   const newTitle = prompt("Enter new title:", eventObj.title);
   if (newTitle === null) return;
@@ -76,10 +78,10 @@ function editEvent(eventObj) {
   dateInput.type = "date";
   dateInput.value = eventObj.datetime ? eventObj.datetime.split("T")[0] : "";
 
-  const timeInput = document.createElement("input");
-  timeInput.type = "time";
-  timeInput.value = eventObj.datetime ? new Date(eventObj.datetime).toTimeString().slice(0, 5) : "";
-
+  const eventDateObj = new Date(eventObj.datetime);
+  const formattedTime = eventDateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Singapore' });
+  timeInput.value = formattedTime;
+  
   // 显示输入框让用户选择日期和时间
   const dateLabel = document.createElement("label");
   dateLabel.textContent = "Select Date:";
