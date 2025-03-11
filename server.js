@@ -38,14 +38,13 @@ app.post('/api/login', (req, res) => {
 // Get all events (available to any logged-in user or admin)
 app.get('/api/events', async (req, res) => {
   try {
-    const events = await Event.find({}, "title description date time").sort({ createdAt: -1 });
+    const events = await Event.find({}, "title description datetime").sort({ createdAt: -1 });
 
     const formattedEvents = events.map(event => ({
       _id: event._id,
       title: event.title,
       description: event.description || "No description available",
-      date: event.date ? new Date(event.date).toISOString().split("T")[0] : "No date available",
-      time: event.time && event.time.trim() ? event.time : "No time available"
+      datetime: event.datetime ? new Date(event.datetime).toISOString() : "No date available"
     }));
 
     res.json(formattedEvents);
@@ -62,12 +61,19 @@ app.post('/api/events', async (req, res) => {
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
       return res.status(403).json({ error: 'Forbidden' });
     }
+
+    if (!date || !time) {
+      return res.status(400).json({ error: "Date and time are required" });
+    }
+
+    const datetime = new Date(`${date}T${time}`); // 合并 date 和 time
+
     const event = new Event({
       title,
       description,
-      date: date ? new Date(date) : undefined,
-      time
+      datetime
     });
+
     await event.save();
     return res.status(201).json({ message: 'Event created', event });
   } catch (err) {
@@ -94,8 +100,7 @@ app.put('/api/events/:id', async (req, res) => {
 
     if (title) event.title = title;
     if (description) event.description = description;
-    if (date) event.date = new Date(date);
-    if (time) event.time = time;
+    if (date && time) event.datetime = new Date(`${date}T${time}`);
 
     await event.save();
     res.json({ message: 'Event updated', event });

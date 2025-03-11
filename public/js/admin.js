@@ -171,7 +171,8 @@ document.getElementById('eventForm').addEventListener('submit', async function (
       body: JSON.stringify({
         title: title,
         description: description,
-        date: `${date}T${time}:00`, // Combine date & time
+        date,  // 发送 date
+        time,  // 发送 time
         adminEmail: localStorage.getItem('userEmail')
       })
     });

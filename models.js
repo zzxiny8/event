@@ -18,7 +18,7 @@ const eventSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String },
   date: { type: Date },
-  time: {type: String, required: true },
+  datetime: { type: Date, required: true },  // 用单个字段存储日期时间
   createdAt: { type: Date, default: Date.now }
   
 }, { timestamps: true });
