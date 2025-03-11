@@ -80,8 +80,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       document.getElementById("eventTitle").textContent = event.title;
       document.getElementById("eventDescription").textContent = event.description || "No description available";
       document.getElementById("eventDate").textContent = event.date 
-    ? `📅 ${new Date(event.date).toLocaleString()}` 
-    : "📅 Date: Not provided";
+        ? `📅 ${new Date(event.date).toLocaleString()}` 
+        : "📅 Date: Not provided";
 
       document.getElementById("eventId").value = event._id;
       eventListContainer.style.display = "none";
