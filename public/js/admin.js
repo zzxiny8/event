@@ -78,9 +78,9 @@ function editEvent(eventObj) {
   dateInput.type = "date";
   dateInput.value = eventObj.datetime ? eventObj.datetime.split("T")[0] : "";
 
-  const eventDateObj = new Date(eventObj.datetime);
-  const formattedTime = eventDateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Asia/Singapore' });
-  timeInput.value = formattedTime;
+  const timeInput = document.createElement("input");
+  timeInput.type = "time";
+  timeInput.value = eventObj.datetime ? new Date(eventObj.datetime).toTimeString().slice(0, 5) : "";
   
   // 显示输入框让用户选择日期和时间
   const dateLabel = document.createElement("label");
