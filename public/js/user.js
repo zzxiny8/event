@@ -80,9 +80,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   function showEventDetails(event) {
       document.getElementById("eventTitle").textContent = event.title;
       document.getElementById("eventDescription").textContent = event.description || "No description available";
-      document.getElementById("eventDate").textContent = event.date ? `📅 Date: ${event.date}` : "📅 Date: Not provided";
-      document.getElementById("eventTime").textContent = event.time ? `⏰ Time: ${event.time}` : "⏰ Time: Not provided";
 
+      // 解析 datetime
+    if (event.datetime) {
+        const eventDateObj = new Date(event.datetime);
+        const formattedDate = eventDateObj.toLocaleDateString();  // 只提取日期
+        const formattedTime = eventDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // 只提取时间
+
+        document.getElementById("eventDate").textContent = `📅 Date: ${formattedDate}`;
+        document.getElementById("eventTime").textContent = `⏰ Time: ${formattedTime}`;
+    } else {
+        document.getElementById("eventDate").textContent = "📅 Date: Not provided";
+        document.getElementById("eventTime").textContent = "⏰ Time: Not provided";
+    }
+    
       document.getElementById("eventId").value = event._id;
       eventListContainer.style.display = "none";
       eventDetailsContainer.style.display = "block";
