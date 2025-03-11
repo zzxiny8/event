@@ -26,7 +26,7 @@ async function loadEvents() {
         if (evt.datetime) {
         
           const d = new Date(evt.datetime);
-          li.textContent += ` (${d.toLocaleDateString(undefined, { timeZone: 'Asia/Singapore' })} ${d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Singapore' })})`;
+          li.textContent += ` (${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
 
 
         }

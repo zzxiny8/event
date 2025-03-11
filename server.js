@@ -100,7 +100,7 @@ app.put('/api/events/:id', async (req, res) => {
       if (isNaN(formattedDateTime.getTime())) {
         return res.status(400).json({ error: "Invalid date or time format" });
       }
-      event.datetime = localDateTime;
+      event.datetime = formattedDateTime;
     }
 
     await event.save();
