@@ -22,9 +22,10 @@ async function loadEvents() {
       events.forEach(evt => {
         const li = document.createElement('li');
         li.textContent = evt.title;
-        if (evt.date) {
-          const d = new Date(evt.date);
-          li.textContent += ` (${d.toLocaleDateString()} ${d.toLocaleTimeString()})`;
+        
+        if (evt.datetime) {
+          const d = new Date(evt.datetime);
+          li.textContent += ` (${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
         }
 
         // Delete button
@@ -164,6 +165,10 @@ document.getElementById('eventForm').addEventListener('submit', async function (
     alert('All fields are required.');
     return;
   }
+
+   // 合并 `date` 和 `time` 形成 `datetime`
+   const datetime = `${date}T${time}:00Z`;
+
   try {
     const res = await fetch('/api/events', {
       method: 'POST',
@@ -171,8 +176,7 @@ document.getElementById('eventForm').addEventListener('submit', async function (
       body: JSON.stringify({
         title: title,
         description: description,
-        date,  // 发送 date
-        time,  // 发送 time
+        datetime: datetime, // 发送 `datetime`
         adminEmail: localStorage.getItem('userEmail')
       })
     });
