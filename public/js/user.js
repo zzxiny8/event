@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           events.reverse(); 
           events.forEach(event => {
               const eventCard = document.createElement("div");
+              const formattedDatetime = new Date(event.datetime).toLocaleString();
               eventCard.classList.add("event-card");
               eventCard.style.backgroundColor = getRandomColor();
               eventCard.innerHTML = `

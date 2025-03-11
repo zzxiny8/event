@@ -44,7 +44,7 @@ app.get('/api/events', async (req, res) => {
       _id: event._id,
       title: event.title,
       description: event.description || "No description available",
-      datetime: event.datetime ? new Date(event.datetime).toISOString() : "No date available"
+      datetime: event.datetime ? event.datetime.toISOString() : "No date available"
     }));
 
     res.json(formattedEvents);
