@@ -58,11 +58,7 @@ app.get('/api/events', async (req, res) => {
 // Create a new event (admin only)
 app.post('/api/events', async (req, res) => {
   try {
-    const { title, description, date, time, adminEmail } = req.body;
-    if (!title || !date || !time) {
-      return res.status(400).json({ error: "Title, date, and time are required" });
-    }
-    
+    const { title, description, date, time, adminEmail } = req.body; 
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
       return res.status(403).json({ error: 'Forbidden' });
     }
