@@ -57,6 +57,7 @@ async function loadEvents() {
 }
 
 // Function to edit an event (now includes time)
+// Function to edit an event (now includes time)
 function editEvent(eventObj) {
   const newTitle = prompt("Enter new title:", eventObj.title);
   if (newTitle === null) return;
@@ -64,72 +65,80 @@ function editEvent(eventObj) {
   const newDesc = prompt("Enter new description:", eventObj.description || "");
   if (newDesc === null) return;
 
-   // 创建输入框
-   const dateInput = document.createElement("input");
-   dateInput.type = "date";
-   dateInput.value = eventObj.datetime ? eventObj.datetime.split("T")[0] : "";
-   
-   const timeInput = document.createElement("input");
-   timeInput.type = "time";
-   timeInput.value = eventObj.datetime ? new Date(eventObj.datetime).toTimeString().slice(0, 5) : "";
+  // 创建 modal 容器
+  const modal = document.createElement("div");
+  modal.classList.add("modal"); // 使用 CSS 样式
 
-    // 显示输入框让用户选择日期和时间
-   const dateLabel = document.createElement("label");
-   dateLabel.textContent = "Select Date:";
-   const timeLabel = document.createElement("label");
-   timeLabel.textContent = "Select Time:";
+  // 创建输入框
+  const dateInput = document.createElement("input");
+  dateInput.type = "date";
+  dateInput.value = eventObj.datetime ? eventObj.datetime.split("T")[0] : "";
 
-   const confirmButton = document.createElement("button");
-   confirmButton.textContent = "Confirm";
-   confirmButton.onclick = () => {
+  const timeInput = document.createElement("input");
+  timeInput.type = "time";
+  timeInput.value = eventObj.datetime ? new Date(eventObj.datetime).toTimeString().slice(0, 5) : "";
+
+  // 显示输入框让用户选择日期和时间
+  const dateLabel = document.createElement("label");
+  dateLabel.textContent = "Select Date:";
+  
+  const timeLabel = document.createElement("label");
+  timeLabel.textContent = "Select Time:";
+
+  // 确认按钮
+  const confirmButton = document.createElement("button");
+  confirmButton.textContent = "Confirm";
+  confirmButton.onclick = async () => {
       const newDate = dateInput.value;
-       const newTime = timeInput.value;
-       if (!newDate || !newTime) {
-           alert("Date and Time are required!");
-           return;
-       }
-
-  fetch(`/api/events/${eventObj._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
-    method: 'PUT',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ 
-      title: newTitle, 
-      description: newDesc, 
-      date: `${newDate}T${newTime}:00` // Combine date & time
-    })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        alert("Update event failed: " + data.error);
-      } else {
-        alert("Event updated!");
-        loadEvents();
+      const newTime = timeInput.value;
+      if (!newDate || !newTime) {
+          alert("Date and Time are required!");
+          return;
       }
-    })
-    .catch(err => {
-      console.error('Error updating event:', err);
-      alert("Error updating event");
-    });
+
+      try {
+          const res = await fetch(`/api/events/${eventObj._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
+              method: 'PUT',
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ 
+                  title: newTitle, 
+                  description: newDesc, 
+                  date: newDate,
+                  time: newTime
+              })
+          });
+          const data = await res.json();
+
+          if (data.error) {
+              alert("Update event failed: " + data.error);
+          } else {
+              alert("Event updated!");
+              loadEvents(); // 刷新事件列表
+              document.body.removeChild(modal); // **关闭弹窗**
+          }
+      } catch (err) {
+          console.error('Error updating event:', err);
+          alert("Error updating event");
+      }
+  };
+
+  // 关闭按钮
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "Close";
+  closeButton.onclick = () => document.body.removeChild(modal); // 关闭弹窗
+
+  // 组装 modal
+  modal.appendChild(dateLabel);
+  modal.appendChild(dateInput);
+  modal.appendChild(timeLabel);
+  modal.appendChild(timeInput);
+  modal.appendChild(confirmButton);
+  modal.appendChild(closeButton);
+
+  // 添加到 body
+  document.body.appendChild(modal);
 }
 
-// 创建弹窗
-const modal = document.createElement("div");
-modal.style.position = "fixed";
-modal.style.top = "50%";
-modal.style.left = "50%";
-modal.style.transform = "translate(-50%, -50%)";
-modal.style.background = "white";
-modal.style.padding = "20px";
-modal.style.border = "1px solid black";
-modal.appendChild(dateLabel);
-modal.appendChild(dateInput);
-modal.appendChild(timeLabel);
-modal.appendChild(timeInput);
-modal.appendChild(confirmButton);
-
-document.body.appendChild(modal);
-}
 
 
 // Fetch and display all user submissions
