@@ -64,11 +64,30 @@ function editEvent(eventObj) {
   const newDesc = prompt("Enter new description:", eventObj.description || "");
   if (newDesc === null) return;
 
-  const newDate = prompt("Enter new date (YYYY-MM-DD):", eventObj.date ? eventObj.date.slice(0, 10) : "");
-  if (newDate === null) return;
+   // 创建输入框
+   const dateInput = document.createElement("input");
+   dateInput.type = "date";
+   dateInput.value = eventObj.datetime ? eventObj.datetime.split("T")[0] : "";
+   
+   const timeInput = document.createElement("input");
+   timeInput.type = "time";
+   timeInput.value = eventObj.datetime ? new Date(eventObj.datetime).toTimeString().slice(0, 5) : "";
 
-  const newTime = prompt("Enter new time (HH:MM):", eventObj.date ? new Date(eventObj.date).toTimeString().slice(0, 5) : "");
-  if (newTime === null) return;
+    // 显示输入框让用户选择日期和时间
+   const dateLabel = document.createElement("label");
+   dateLabel.textContent = "Select Date:";
+   const timeLabel = document.createElement("label");
+   timeLabel.textContent = "Select Time:";
+
+   const confirmButton = document.createElement("button");
+   confirmButton.textContent = "Confirm";
+   confirmButton.onclick = () => {
+      const newDate = dateInput.value;
+       const newTime = timeInput.value;
+       if (!newDate || !newTime) {
+           alert("Date and Time are required!");
+           return;
+       }
 
   fetch(`/api/events/${eventObj._id}?adminEmail=` + encodeURIComponent(localStorage.getItem('userEmail')), {
     method: 'PUT',
@@ -93,6 +112,25 @@ function editEvent(eventObj) {
       alert("Error updating event");
     });
 }
+
+// 创建弹窗
+const modal = document.createElement("div");
+modal.style.position = "fixed";
+modal.style.top = "50%";
+modal.style.left = "50%";
+modal.style.transform = "translate(-50%, -50%)";
+modal.style.background = "white";
+modal.style.padding = "20px";
+modal.style.border = "1px solid black";
+modal.appendChild(dateLabel);
+modal.appendChild(dateInput);
+modal.appendChild(timeLabel);
+modal.appendChild(timeInput);
+modal.appendChild(confirmButton);
+
+document.body.appendChild(modal);
+}
+
 
 // Fetch and display all user submissions
 async function loadSubmissions() {
