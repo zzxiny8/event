@@ -96,10 +96,13 @@ app.put('/api/events/:id', async (req, res) => {
     if (description) event.description = description;
     if (date && time) {
       const formattedDateTime = new Date(`${date}T${time}:00`); 
+      // 手动调整为本地时间
+      const localDateTime = new Date(formattedDateTime.getTime() - formattedDateTime.getTimezoneOffset() * 60000);
+      
       if (isNaN(formattedDateTime.getTime())) {
         return res.status(400).json({ error: "Invalid date or time format" });
       }
-      event.datetime = formattedDateTime;
+      event.datetime = localDateTime;
     }
 
     await event.save();
