@@ -45,7 +45,7 @@ app.get('/api/events', async (req, res) => {
       title: event.title,
       description: event.description || "No description available",
       date: event.date ? new Date(event.date).toISOString().split("T")[0] : "No date available",
-      time: event.time && event.time.trim() !== "" ? event.time : "No time available"
+      time: event.time && event.time.trim() ? event.time : "No time available"
     }));
 
     res.json(formattedEvents);
@@ -59,6 +59,10 @@ app.get('/api/events', async (req, res) => {
 app.post('/api/events', async (req, res) => {
   try {
     const { title, description, date, time, adminEmail } = req.body;
+    if (!title || !date || !time) {
+      return res.status(400).json({ error: "Title, date, and time are required" });
+    }
+    
     if (!adminEmail || adminEmail.toLowerCase() !== ADMIN_EMAIL) {
       return res.status(403).json({ error: 'Forbidden' });
     }

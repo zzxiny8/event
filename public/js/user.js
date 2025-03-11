@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async function () {
               eventCard.innerHTML = `
                   <h2 class="event-title">${event.title}</h2>
                   <p class="event-date">📅 ${event.date ? event.date : "No date available"}</p>
-                  <p class="event-time">⏰ ${event.time && event.time.trim() !== "" ? event.time : "No time available"}</p>
+                  <p class="event-time">⏰ ${event.time && event.time.trim() ? event.time : "No time available"}</p>
               `;
               eventCard.addEventListener("click", () => showEventDetails(event));
               eventList.appendChild(eventCard);
