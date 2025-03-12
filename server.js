@@ -62,14 +62,6 @@ app.post('/api/events', async (req, res) => {
       return res.status(403).json({ error: 'Forbidden' });
     }
 
-    // 假设前端发送的 datetime 格式为 "YYYY-MM-DDTHH:mm"
-    // 生成本地时间 Date 对象
-    const localDate = new Date(datetime);
-    // 获取本地时区相对于 UTC 的偏移（单位：分钟），乘以60000换成毫秒
-    const offsetMs = localDate.getTimezoneOffset() * 60000;
-    // 补偿时区偏移，得到与用户选择一致的时间
-    const correctedDate = new Date(localDate.getTime() + offsetMs);
-
     const event = new Event({
       title,
       description,
