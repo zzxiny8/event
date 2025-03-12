@@ -65,7 +65,7 @@ app.post('/api/events', async (req, res) => {
     const event = new Event({
       title,
       description,
-      datetime: correctedDate
+      datetime: datetime ? new Date(datetime) : undefined
     });
 
     await event.save();
