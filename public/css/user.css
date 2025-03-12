@@ -12,6 +12,12 @@ body {
   color: white;
 }
 
+/* Promotion 页面背景 */
+body.promotion-page {
+  background: url("../images/bg_promotion.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
 /* Our Voice 页面背景 */
 body.our-voice-page {
   background: url("../images/bg8.jpg") no-repeat center center fixed;
@@ -32,7 +38,7 @@ body.event-page {
   margin-top: 20px;
 }
 
-.navbar button {
+.navbar span {
   padding: 10px 20px;
   font-size: 18px;
   border: none;
@@ -42,7 +48,7 @@ body.event-page {
   border-radius: 5px;
 }
 
-.navbar button.active {
+.navbar span.active {
   background-color: #0056b3;
 }
 
@@ -107,7 +113,7 @@ body.event-page {
   }
 
   #eventDetailsContainer {
-    margin-top: 250px; /* 让容器向下移动 50px，数值可调整 */
+    margin-top: 50px; /* 调整容器位置 */
   }
 
 /* 点击式Event卡片 */
@@ -190,7 +196,6 @@ input, select {
 .back-btn:hover {
   background: #EB6400;
 }
-
 
 button[type="submit"] {
   width: 80%;
