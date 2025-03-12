@@ -13,35 +13,54 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   // 获取导航按钮
+  const promotionBtn = document.getElementById("promotionBtn");
   const ourVoiceBtn = document.getElementById("ourVoiceBtn");
   const eventBtn = document.getElementById("eventBtn");
   
-  // 获取两个界面
+  // 获取3个界面
+  const promotionContainer = document.getElementById("promotionContainer");
   const ourVoiceContainer = document.getElementById("ourVoiceContainer");
   const eventContainer = document.getElementById("eventContainer");
 
-  // 切换到 Our Voice 界面（默认）
-  ourVoiceBtn.addEventListener("click", function () {
-      document.body.classList.add("our-voice-page");
-      document.body.classList.remove("event-page");
-      ourVoiceContainer.style.display = "block";
-      eventContainer.style.display = "none";
-      ourVoiceBtn.classList.add("active");
-      eventBtn.classList.remove("active");
-  });
+   // 事件监听，切换界面
+   promotionBtn.addEventListener("click", function () {
+    showPage("promotion");
+});
 
-  // 切换到 Event 界面
-  eventBtn.addEventListener("click", function () {
-      document.body.classList.add("event-page");
-      document.body.classList.remove("our-voice-page");
-      ourVoiceContainer.style.display = "none";
-      eventContainer.style.display = "block";
-      eventBtn.classList.add("active");
-      ourVoiceBtn.classList.remove("active");
-  });
+ourVoiceBtn.addEventListener("click", function () {
+    showPage("ourVoice");
+});
 
-  // 默认进入 Our Voice
-  ourVoiceBtn.click();
+eventBtn.addEventListener("click", function () {
+    showPage("event");
+});
+
+function showPage(page) {
+    // 隐藏所有界面
+    promotionContainer.style.display = "none";
+    ourVoiceContainer.style.display = "none";
+    eventContainer.style.display = "none";
+
+    // 移除所有按钮的 active 状态
+    promotionBtn.classList.remove("active");
+    ourVoiceBtn.classList.remove("active");
+    eventBtn.classList.remove("active");
+
+    // 显示选中的界面，并添加 active 状态
+    if (page === "promotion") {
+        promotionContainer.style.display = "block";
+        promotionBtn.classList.add("active");
+    } else if (page === "ourVoice") {
+        ourVoiceContainer.style.display = "block";
+        ourVoiceBtn.classList.add("active");
+    } else if (page === "event") {
+        eventContainer.style.display = "block";
+        eventBtn.classList.add("active");
+    }
+}
+
+// 默认进入 Promotion 界面
+showPage("promotion");
 
   // 获取事件列表
   const eventListContainer = document.getElementById("eventListContainer");

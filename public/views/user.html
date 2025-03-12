@@ -13,12 +13,24 @@
     
     <!-- 顶部导航栏 -->
     <div class="navbar">
+        <span id="promotionBtn" class="nav-item active">Promotion</span>
         <span id="ourVoiceBtn" class="nav-item active">Our Voice</span>
         <span id="eventBtn" class="nav-item">Event</span>
     </div>
 
+    <!-- Promotion 界面（默认显示） -->
+    <div id="promotionContainer" class="content-container">
+        <h1 class="title">Latest Promotions</h1>
+        <p>Here are some exclusive promotions and offers for you!</p>
+        <ul class="promotion-list">
+            <li>🎉 20% off on all new services</li>
+            <li>🎁 Special discount for UD Trucks customers</li>
+            <li>📢 Stay tuned for upcoming events!</li>
+        </ul>
+    </div>
+
     <!-- Our Voice 界面 -->
-    <div id="ourVoiceContainer" class="content-container">
+    <div id="ourVoiceContainer" class="content-container" style="display: none;">
         <h1 class="title">Our Voice</h1>
         <table class="info-table">
             <thead>
