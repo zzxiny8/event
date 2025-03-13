@@ -14,7 +14,7 @@ body {
 
 /* Promotion 页面背景 */
 body.promotion-page {
-  background: url("../images/bg_promotion.jpg") no-repeat center center fixed;
+  background: url("../images/bg9.png") no-repeat center center fixed;
   background-size: cover;
 }
 
