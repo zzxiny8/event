@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (page === "promotion") {
             promotionContainer.style.display = "block";
             promotionBtn.classList.add("active");
-            document.body.classList.add("promotion-page");
+            document.body.classList.add("promotion-page"); // 进入 Promotion 背景
         } else if (page === "ourVoice") {
             ourVoiceContainer.style.display = "block";
             ourVoiceBtn.classList.add("active");
