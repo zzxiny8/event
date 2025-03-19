@@ -5,25 +5,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         window.location.href = "/views/login.html"; // 若未登录，则跳转登录页
         return;
     }
-  
+
     // 自动填充邮箱到表单中
     const emailInput = document.getElementById("email");
     if (emailInput) {
         emailInput.value = userEmail;
     }
-  
+
     // 获取导航按钮
     const promotionBtn = document.getElementById("promotionBtn");
     const ourVoiceBtn = document.getElementById("ourVoiceBtn");
     const eventBtn = document.getElementById("eventBtn");
     
-    // 获取两个界面
+    // 获取三个界面
     const promotionContainer = document.getElementById("promotionContainer");
     const ourVoiceContainer = document.getElementById("ourVoiceContainer");
     const eventContainer = document.getElementById("eventContainer");
-  
 
-     // 切换到 Promotion 界面
+    // 切换到 Promotion 界面
     promotionBtn.addEventListener("click", function () {
         document.body.classList.add("promotion-page");
         document.body.classList.remove("our-voice-page");
@@ -67,18 +66,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // 默认进入 Promotion
     promotionBtn.click();
-  
-    // 获取事件列表
+
+    // 下面是原有的 Event 相关代码、fetch 调用、表单提交等逻辑，不变
+    // --------------------------------------------------------------
     const eventListContainer = document.getElementById("eventListContainer");
     const eventDetailsContainer = document.getElementById("eventDetailsContainer");
     const eventList = document.getElementById("eventList");
     const backButton = document.getElementById("backButton");
     const userForm = document.getElementById("userForm");
-  
+
     try {
         const res = await fetch("/api/events");
         const events = await res.json();
-  
+
         if (res.ok && events.length > 0) {
             eventList.innerHTML = "";
             events.reverse(); 
@@ -88,10 +88,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 eventCard.classList.add("event-card");
                 eventCard.style.backgroundColor = getRandomColor();
                 eventCard.innerHTML = `
-                <h2 class="event-title">${event.title}</h2>
-                <p class="event-date">📅 ${formattedDatetime}</p>
-            `;
-            
+                    <h2 class="event-title">${event.title}</h2>
+                    <p class="event-date">📅 ${formattedDatetime}</p>
+                `;
                 eventCard.addEventListener("click", () => showEventDetails(event));
                 eventList.appendChild(eventCard);
             });
@@ -102,35 +101,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error("Error fetching events:", err);
         eventList.innerHTML = "<p class='error'>Error loading events. Please try again later.</p>";
     }
-  
+
     function showEventDetails(event) {
         document.getElementById("eventTitle").textContent = event.title;
         document.getElementById("eventDescription").textContent = event.description || "No description available";
-  
-        // 解析 datetime
-      if (event.datetime) {
-          const eventDateObj = new Date(event.datetime);
-          const formattedDate = eventDateObj.toLocaleDateString();  // 只提取日期
-          const formattedTime = eventDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }); // 只提取时间
-  
-          document.getElementById("eventDate").textContent = `📅 Date: ${formattedDate}`;
-          document.getElementById("eventTime").textContent = `⏰ Time: ${formattedTime}`;
 
-      } else {
-          document.getElementById("eventDate").textContent = "📅 Date: Not provided";
-          document.getElementById("eventTime").textContent = "⏰ Time: Not provided";
-      }
-  
+        if (event.datetime) {
+            const eventDateObj = new Date(event.datetime);
+            const formattedDate = eventDateObj.toLocaleDateString();
+            const formattedTime = eventDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            document.getElementById("eventDate").textContent = `📅 Date: ${formattedDate}`;
+            document.getElementById("eventTime").textContent = `⏰ Time: ${formattedTime}`;
+        } else {
+            document.getElementById("eventDate").textContent = "📅 Date: Not provided";
+            document.getElementById("eventTime").textContent = "⏰ Time: Not provided";
+        }
+
         document.getElementById("eventId").value = event._id;
         eventListContainer.style.display = "none";
         eventDetailsContainer.style.display = "block";
     }
-  
+
     backButton.addEventListener("click", function () {
         eventDetailsContainer.style.display = "none";
         eventListContainer.style.display = "block";
     });
-  
+
     userForm.addEventListener("submit", async function(e) {
         e.preventDefault();
         const name = document.getElementById("name").value.trim();
@@ -141,7 +137,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const dinner = document.getElementById("dinner").value === "true";
         const allergies = document.getElementById("allergies").value.trim();
         const avoidMeat = document.getElementById("avoidMeat").value.trim();
-  
+
         if (!name) {
             alert("Please enter your name.");
             return;
@@ -150,9 +146,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             alert("No event selected. Please go back and select an event again.");
             return;
         }
-  
+
         const formData = { name, email, phone, eventId, vegetarian, dinner, allergies, avoidMeat };
-  
+
         try {
             const response = await fetch("/api/submit", {
                 method: "POST",
@@ -160,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 body: JSON.stringify(formData)
             });
             const result = await response.json();
-  
+
             if (response.ok) {
                 alert("Submission successful!");
                 backButton.click();
@@ -172,9 +168,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             alert("An error occurred while submitting. Please try again.");
         }
     });
-  });
-  
-  function getRandomColor() {
+});
+
+// 颜色函数，保持不变
+function getRandomColor() {
     const colors = ["#417D14", "#556EAA", "#F08C00", "#00829B", "#4C4948"];
     return colors[Math.floor(Math.random() * colors.length)];
-  }
+}
