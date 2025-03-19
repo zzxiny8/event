@@ -10,6 +10,12 @@ body {
   color: white;
 }
 
+/* Promotion 页面背景，自行选择合适的背景图 */
+body.promotion-page {
+  background: url("../images/bg8.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
 /* Our Voice 页面背景 */
 body.our-voice-page {
   background: url("../images/bg8.jpg") no-repeat center center fixed;

@@ -9,16 +9,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 </head>
-<body class="our-voice-page"> <!-- 默认进入Our Voice界面 -->
+<body class="promotion-page"> <!-- 默认进入Our Voice界面 -->
     
     <!-- 顶部导航栏 -->
     <div class="navbar">
+        <span id="promotionBtn" class="nav-item active">Promotion</span>
         <span id="ourVoiceBtn" class="nav-item active">Our Voice</span>
         <span id="eventBtn" class="nav-item">Event</span>
     </div>
 
+    <!-- Promotion 界面（默认显示） -->
+    <div id="promotionContainer" class="content-container">
+        <h1>Promotion</h1>
+        <p>（此处可放置任何推广或宣传的内容，当前为空白）</p>
+    </div>
+
     <!-- Our Voice 界面 -->
-    <div id="ourVoiceContainer" class="content-container">
+    <div id="ourVoiceContainer" class="content-container" style="display: none;">
         <h1 class="title">Our Voice</h1>
         <table class="info-table">
             <thead>

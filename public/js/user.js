@@ -22,28 +22,51 @@ document.addEventListener("DOMContentLoaded", async function () {
     const ourVoiceContainer = document.getElementById("ourVoiceContainer");
     const eventContainer = document.getElementById("eventContainer");
   
-    // 切换到 Our Voice 界面（默认）
-    ourVoiceBtn.addEventListener("click", function () {
-        document.body.classList.add("our-voice-page");
+
+     // 切换到 Promotion 界面
+    promotionBtn.addEventListener("click", function () {
+        document.body.classList.add("promotion-page");
+        document.body.classList.remove("our-voice-page");
         document.body.classList.remove("event-page");
-        ourVoiceContainer.style.display = "block";
+        promotionContainer.style.display = "block";
+        ourVoiceContainer.style.display = "none";
         eventContainer.style.display = "none";
-        ourVoiceBtn.classList.add("active");
+
+        promotionBtn.classList.add("active");
+        ourVoiceBtn.classList.remove("active");
         eventBtn.classList.remove("active");
     });
-  
+
+    // 切换到 Our Voice 界面
+    ourVoiceBtn.addEventListener("click", function () {
+        document.body.classList.add("our-voice-page");
+        document.body.classList.remove("promotion-page");
+        document.body.classList.remove("event-page");
+        ourVoiceContainer.style.display = "block";
+        promotionContainer.style.display = "none";
+        eventContainer.style.display = "none";
+
+        ourVoiceBtn.classList.add("active");
+        promotionBtn.classList.remove("active");
+        eventBtn.classList.remove("active");
+    });
+
     // 切换到 Event 界面
     eventBtn.addEventListener("click", function () {
         document.body.classList.add("event-page");
         document.body.classList.remove("our-voice-page");
-        ourVoiceContainer.style.display = "none";
+        document.body.classList.remove("promotion-page");
         eventContainer.style.display = "block";
+        ourVoiceContainer.style.display = "none";
+        promotionContainer.style.display = "none";
+
         eventBtn.classList.add("active");
         ourVoiceBtn.classList.remove("active");
+        promotionBtn.classList.remove("active");
     });
-  
-    // 默认进入 Our Voice
-    ourVoiceBtn.click();
+
+    // 默认进入 Promotion
+    promotionBtn.click();
   
     // 获取事件列表
     const eventListContainer = document.getElementById("eventListContainer");
