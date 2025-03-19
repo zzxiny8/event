@@ -1,61 +1,70 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  // 1. 确认用户已经登录且邮箱是 @udtrucks.com
-  const userEmail = localStorage.getItem("userEmail");
-  if (!userEmail || !userEmail.endsWith("@udtrucks.com")) {
-      window.location.href = "/views/login.html"; // 若未登录，则跳转登录页
-      return;
-  }
+    // 1. 确认用户已经登录且邮箱是 @udtrucks.com
+    const userEmail = localStorage.getItem("userEmail");
+    if (!userEmail || !userEmail.endsWith("@udtrucks.com")) {
+        window.location.href = "/views/login.html"; // 若未登录，则跳转登录页
+        return;
+    }
 
-  // 自动填充邮箱到表单中
-  const emailInput = document.getElementById("email");
-  if (emailInput) {
-      emailInput.value = userEmail;
-  }
+    // 自动填充邮箱到表单中
+    const emailInput = document.getElementById("email");
+    if (emailInput) {
+        emailInput.value = userEmail;
+    }
 
-  // 获取导航按钮
-  const promotionBtn = document.getElementById("promotionBtn");
-  const ourVoiceBtn = document.getElementById("ourVoiceBtn");
-  const eventBtn = document.getElementById("eventBtn");
-  
-  // 获取3个界面
-  const promotionContainer = document.getElementById("promotionContainer");
-  const ourVoiceContainer = document.getElementById("ourVoiceContainer");
-  const eventContainer = document.getElementById("eventContainer");
+    // 获取导航按钮
+    const promotionBtn = document.getElementById("promotionBtn");
+    const ourVoiceBtn = document.getElementById("ourVoiceBtn");
+    const eventBtn = document.getElementById("eventBtn");
+    
+    // 获取3个界面
+    const promotionContainer = document.getElementById("promotionContainer");
+    const ourVoiceContainer = document.getElementById("ourVoiceContainer");
+    const eventContainer = document.getElementById("eventContainer");
 
-   // 事件监听，切换界面
-   promotionBtn.addEventListener("click", function () {
-    showPage("promotion");
-});
+    // 事件监听，切换界面
+    promotionBtn.addEventListener("click", function () {
+        showPage("promotion");
+    });
 
-ourVoiceBtn.addEventListener("click", function () {
-    showPage("ourVoice");
-});
+    ourVoiceBtn.addEventListener("click", function () {
+        showPage("ourVoice");
+    });
 
-eventBtn.addEventListener("click", function () {
-    showPage("event");
-});
+    eventBtn.addEventListener("click", function () {
+        showPage("event");
+    });
 
-function showPage(page) {
-    // 隐藏所有界面
-    promotionContainer.style.display = "none";
-    ourVoiceContainer.style.display = "none";
-    eventContainer.style.display = "none";
+    function showPage(page) {
+        // 隐藏所有界面
+        promotionContainer.style.display = "none";
+        ourVoiceContainer.style.display = "none";
+        eventContainer.style.display = "none";
 
-    // 移除所有按钮的 active 状态
-    promotionBtn.classList.remove("active");
-    ourVoiceBtn.classList.remove("active");
-    eventBtn.classList.remove("active");
+        // 移除所有按钮的 active 状态
+        promotionBtn.classList.remove("active");
+        ourVoiceBtn.classList.remove("active");
+        eventBtn.classList.remove("active");
 
-    // 显示选中的界面，并添加 active 状态
-    if (page === "promotion") {
-        promotionContainer.style.display = "block";
-        promotionBtn.classList.add("active");
-    } else if (page === "ourVoice") {
-        ourVoiceContainer.style.display = "block";
-        ourVoiceBtn.classList.add("active");
-    } else if (page === "event") {
-        eventContainer.style.display = "block";
-        eventBtn.classList.add("active");
+        // 更新 body 的 class
+        document.body.className = ""; // 先清空 class
+
+
+        // 显示选中的界面，并添加 active 状态
+        // 显示选中的界面，并添加 active 状态
+        if (page === "promotion") {
+            promotionContainer.style.display = "block";
+            promotionBtn.classList.add("active");
+            document.body.classList.add("promotion-page"); // 设置对应的背景
+        } else if (page === "ourVoice") {
+            ourVoiceContainer.style.display = "block";
+            ourVoiceBtn.classList.add("active");
+            document.body.classList.add("our-voice-page");
+        } else if (page === "event") {
+            eventContainer.style.display = "block";
+            eventBtn.classList.add("active");
+            document.body.classList.add("event-page");
+        }
     }
 }
 
