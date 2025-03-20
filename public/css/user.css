@@ -169,6 +169,7 @@ body.event-page {
 
 #promotionContainer h1 {
   font-size: 24px; /* 修改为24px */
+  margin-bottom: 20px;
 }
 
 #promoVideo1 {
@@ -188,7 +189,7 @@ body.event-page {
 }
 
 #promoVideo2 {
-  width: 70%;  /* 第二个视频更大 */
+  width: 80%;  /* 第二个视频更大 */
   max-width: 900px;
   height: auto;
   border-radius: 10px;
@@ -206,8 +207,8 @@ body.event-page {
 
 /* 让图片居中，并限制大小 */
 #aiPoster {
-  width: 60%;  /* 图片宽度 */
-  max-width: 800px; /* 最大宽度 */
+  width: 80%;  /* 图片宽度 */
+  max-width: 900px; /* 最大宽度 */
   height: auto; /* 保持比例 */
   border-radius: 10px; /* 圆角 */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 添加阴影 */
