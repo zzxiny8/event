@@ -163,7 +163,16 @@ body.event-page {
 }
 
 #promotionContainer {
+  text-align: center; /* 让文本和视频居中 */
   padding-top: 30px; /* 让整个内容向下移动 */
+}
+
+#promotionContainer video {
+  width: 80%;  /* 调整视频宽度，保持响应式 */
+  max-width: 800px; /* 限制最大宽度 */
+  border-radius: 10px; /* 圆角 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 添加阴影 */
+  margin-top: 20px; /* 与标题保持间距 */
 }
 
 /* 表单label(如用户填写信息时) */
