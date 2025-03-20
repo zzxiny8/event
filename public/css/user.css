@@ -167,7 +167,11 @@ body.event-page {
   padding-top: 30px; /* 让整个内容向下移动 */
 }
 
-#promotionContainer video {
+#promotionContainer h1 {
+  font-size: 24px; /* 修改为24px */
+}
+
+#promoVideo1 {
   width: 50%;  /* 调整视频宽度，保持响应式 */
   max-width: 600px; /* 限制最大宽度 */
   height: auto;
@@ -181,6 +185,33 @@ body.event-page {
   font-weight: bold;
   color: white;
   margin-top: 30px;
+}
+
+#promoVideo2 {
+  width: 70%;  /* 第二个视频更大 */
+  max-width: 900px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+}
+
+/* 调整第三部分标题 */
+.poster-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin-top: 30px; /* 让标题与上方视频有足够间距 */
+}
+
+/* 让图片居中，并限制大小 */
+#aiPoster {
+  width: 60%;  /* 图片宽度 */
+  max-width: 800px; /* 最大宽度 */
+  height: auto; /* 保持比例 */
+  border-radius: 10px; /* 圆角 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 添加阴影 */
+  margin-top: 20px;
 }
 
 /* 表单label(如用户填写信息时) */
