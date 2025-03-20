@@ -219,7 +219,7 @@ body.event-page {
   font-size: 18px;
   color: #ddd;  /* 让文字颜色稍微柔和，不要太亮 */
   text-align: center; /* 让说明文字居中 */
-  max-width: 800px; /* 限制宽度，防止太长 */
+  max-width: 900px; /* 限制宽度，防止太长 */
   margin: 10px auto 20px; /* 控制与标题、视频之间的间距 */
   line-height: 1.6; /* 增加行间距，让文字更易读 */
 }
