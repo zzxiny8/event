@@ -215,6 +215,16 @@ body.event-page {
   margin-top: 20px;
 }
 
+.video-description {
+  font-size: 18px;
+  color: #ddd;  /* 让文字颜色稍微柔和，不要太亮 */
+  text-align: center; /* 让说明文字居中 */
+  max-width: 800px; /* 限制宽度，防止太长 */
+  margin: 10px auto 20px; /* 控制与标题、视频之间的间距 */
+  line-height: 1.6; /* 增加行间距，让文字更易读 */
+}
+
+
 /* 表单label(如用户填写信息时) */
 form label {
   width: 100%;
