@@ -219,7 +219,7 @@ body.event-page {
   font-size: 18px;
   color: #ddd;  /* 让文字颜色稍微柔和，不要太亮 */
   text-align: center; /* 让说明文字居中 */
-  max-width: 90%; /* 让内容更宽一些，避免挤压 */
+  max-width: 100%; /* 让内容更宽一些，避免挤压 */
   white-space: nowrap; /* 防止换行 */
   overflow: hidden; /* 避免超出容器 */
   margin: 10px auto 20px; /* 控制与标题、视频之间的间距 */
