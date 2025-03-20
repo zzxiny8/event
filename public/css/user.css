@@ -168,8 +168,9 @@ body.event-page {
 }
 
 #promotionContainer video {
-  width: 80%;  /* 调整视频宽度，保持响应式 */
-  max-width: 800px; /* 限制最大宽度 */
+  width: 60%;  /* 调整视频宽度，保持响应式 */
+  max-width: 600px; /* 限制最大宽度 */
+  height: auto;
   border-radius: 10px; /* 圆角 */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* 添加阴影 */
   margin-top: 20px; /* 与标题保持间距 */
