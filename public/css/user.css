@@ -12,7 +12,7 @@ body {
 
 /* Promotion 页面背景，自行选择合适的背景图 */
 body.promotion-page {
-  background: url("../images/bg2.jpg") no-repeat center center fixed;
+  background: url("../images/bg8.jpg") no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -159,11 +159,11 @@ body.event-page {
 }
 
 #ourVoiceContainer {
-  padding-top: 50px; /* 让整个内容向下移动 */
+  padding-top: 30px; /* 让整个内容向下移动 */
 }
 
 #promotionContainer {
-  padding-top: 50px; /* 让整个内容向下移动 */
+  padding-top: 30px; /* 让整个内容向下移动 */
 }
 
 /* 表单label(如用户填写信息时) */
