@@ -165,12 +165,17 @@ body.event-page {
 
 #promotionContainer {
   text-align: center; /* 让文本和视频居中 */
-  padding-top: 30px; /* 让整个内容向下移动 */
+  width: 100%;
+  max-width: 100%;
+  padding: 30px 5%; /* 让整个内容向下移动 */
 }
 
 #promotionContainer h1 {
   font-size: 24px; /* 修改为24px */
   margin-bottom: 20px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: visible;
 }
 
 #promoVideo1 {
@@ -187,6 +192,9 @@ body.event-page {
   font-weight: bold;
   color: white;
   margin-top: 30px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: visible;
 }
 
 #promoVideo2 {
@@ -203,6 +211,9 @@ body.event-page {
   font-size: 24px;
   font-weight: bold;
   color: white;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: visible;
   margin-top: 30px; /* 让标题与上方视频有足够间距 */
 }
 
@@ -219,7 +230,7 @@ body.event-page {
 .video-description {
   font-size: 18px;
   color: #ddd;  /* 让文字颜色稍微柔和，不要太亮 */
-  text-align: center; /* 让说明文字居中 */
+  text-align: left; /* 让说明文字居中 */
   max-width: 100%; /* 让内容更宽一些，避免挤压 */
   white-space: normal; 
   overflow: visible; 
@@ -303,7 +314,11 @@ button[type="submit"]:hover {
 
   /* 允许文本换行，避免横向溢出 */
   .video-description {
+    text-align: left;
     white-space: normal; /* 小屏幕时，允许自动换行 */
     overflow: visible;   /* 不要隐藏超出部分 */
+    padding: 0 5%;
+    max-width: 100%;
   }
+  
 }
