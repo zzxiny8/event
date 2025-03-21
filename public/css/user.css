@@ -230,7 +230,7 @@ body.event-page {
 .video-description {
   font-size: 18px;
   color: #ddd;  /* 让文字颜色稍微柔和，不要太亮 */
-  text-align: left; /* 让说明文字居中 */
+  text-align: center; /* 让说明文字居中 */
   max-width: 100%; /* 让内容更宽一些，避免挤压 */
   white-space: normal; 
   overflow: visible; 
@@ -317,7 +317,6 @@ button[type="submit"]:hover {
     text-align: left;
     white-space: normal; /* 小屏幕时，允许自动换行 */
     overflow: visible;   /* 不要隐藏超出部分 */
-    padding: 0 5%;
     max-width: 100%;
   }
   
