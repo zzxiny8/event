@@ -221,8 +221,8 @@ body.event-page {
   color: #ddd;  /* 让文字颜色稍微柔和，不要太亮 */
   text-align: center; /* 让说明文字居中 */
   max-width: 100%; /* 让内容更宽一些，避免挤压 */
-  white-space: nowrap; /* 防止换行 */
-  overflow: hidden; /* 避免超出容器 */
+  white-space: normal; 
+  overflow: visible; 
   margin: 10px auto 20px; /* 控制与标题、视频之间的间距 */
   line-height: 1.6; /* 增加行间距，让文字更易读 */
 }
