@@ -1,4 +1,5 @@
 /* 基本页面布局 */
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -281,3 +282,28 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background: #0F3C73;
 } 
+
+/*   小屏幕（<= 600px）自适应   */
+@media (max-width: 600px) {
+  /* 让视频/图片自适应全屏宽度 */
+  #promoVideo1 {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #promoVideo2 {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #aiPoster {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* 允许文本换行，避免横向溢出 */
+  .video-description {
+    white-space: normal; /* 小屏幕时，允许自动换行 */
+    overflow: visible;   /* 不要隐藏超出部分 */
+  }
+}
