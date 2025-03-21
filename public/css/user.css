@@ -300,6 +300,10 @@ button[type="submit"]:hover {
   #promoVideo1 {
     width: 100%;
     max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
   }
 
   #promoVideo2 {
@@ -314,7 +318,7 @@ button[type="submit"]:hover {
 
   /* 允许文本换行，避免横向溢出 */
   .video-description {
-    text-align: center;
+    text-align: left;
     white-space: normal; /* 小屏幕时，允许自动换行 */
     overflow: visible;   /* 不要隐藏超出部分 */
     max-width: 100%;
