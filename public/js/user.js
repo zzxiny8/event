@@ -14,53 +14,32 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // 获取导航按钮
     const promotionBtn = document.getElementById("promotionBtn");
-    const ourVoiceBtn = document.getElementById("ourVoiceBtn");
     const eventBtn = document.getElementById("eventBtn");
     
     // 获取三个界面
     const promotionContainer = document.getElementById("promotionContainer");
-    const ourVoiceContainer = document.getElementById("ourVoiceContainer");
     const eventContainer = document.getElementById("eventContainer");
 
     // 切换到 Promotion 界面
     promotionBtn.addEventListener("click", function () {
         document.body.classList.add("promotion-page");
-        document.body.classList.remove("our-voice-page");
         document.body.classList.remove("event-page");
         promotionContainer.style.display = "block";
-        ourVoiceContainer.style.display = "none";
         eventContainer.style.display = "none";
 
         promotionBtn.classList.add("active");
-        ourVoiceBtn.classList.remove("active");
         eventBtn.classList.remove("active");
     });
 
-    // 切换到 Our Voice 界面
-    ourVoiceBtn.addEventListener("click", function () {
-        document.body.classList.add("our-voice-page");
-        document.body.classList.remove("promotion-page");
-        document.body.classList.remove("event-page");
-        ourVoiceContainer.style.display = "block";
-        promotionContainer.style.display = "none";
-        eventContainer.style.display = "none";
-
-        ourVoiceBtn.classList.add("active");
-        promotionBtn.classList.remove("active");
-        eventBtn.classList.remove("active");
-    });
 
     // 切换到 Event 界面
     eventBtn.addEventListener("click", function () {
         document.body.classList.add("event-page");
-        document.body.classList.remove("our-voice-page");
         document.body.classList.remove("promotion-page");
         eventContainer.style.display = "block";
-        ourVoiceContainer.style.display = "none";
         promotionContainer.style.display = "none";
 
         eventBtn.classList.add("active");
-        ourVoiceBtn.classList.remove("active");
         promotionBtn.classList.remove("active");
     });
 

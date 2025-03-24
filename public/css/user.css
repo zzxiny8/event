@@ -18,12 +18,6 @@ body.promotion-page {
 }
 
 
-/* Our Voice 页面背景 */
-body.our-voice-page {
-  background: url("../images/bg8.jpg") no-repeat center center fixed;
-  background-size: cover;
-}
-
 /* Event 页面背景 */
 body.event-page {
   background: url("../images/bg9.png") no-repeat center center fixed;
@@ -159,9 +153,6 @@ body.event-page {
   transform: translate(-50%, -50%);
 }
 
-#ourVoiceContainer {
-  padding-top: 30px; /* 让整个内容向下移动 */
-}
 
 #promotionContainer {
   text-align: center; /* 让文本和视频居中 */
